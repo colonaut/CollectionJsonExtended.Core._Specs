@@ -14,7 +14,7 @@ namespace CollectionJsonExtended.Core._Specs
             () =>
            subject.ShouldEqual(
                        "{" +
-                            "\"rel\":\"rss\"," +
+                            "\"rel\":null," +
                             "\"href\":null," +
                             "\"render\":\"href\"" +
                        "}");

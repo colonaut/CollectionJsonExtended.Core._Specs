@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using CollectionJsonExtended.Core.Attributes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 

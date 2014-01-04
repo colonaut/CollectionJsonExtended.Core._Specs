@@ -2,26 +2,27 @@
 
 namespace CollectionJsonExtended.Core._Specs
 {
+
     [Subject(typeof(WriteTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
-    public class When_the_template_representaion_entitydata_type_is_serialized_with_the_FakeSimpleModelWithEnumAndStringEnum
+    public class When_the_template_representaion_is_serialized_with_the_FakeSimpleModelWithEnumAndStringEnum
     {
-        readonly static CollectionJsonSerializerSettings settings = new CollectionJsonSerializerSettings
+        readonly static CollectionJsonSerializerSettings Settings = new CollectionJsonSerializerSettings
         {
             ConversionMethod = ConversionMethod.Data
         };
-        readonly static WriteTemplateRepresentation<FakeSimpleModelWithEnumAndStringEnum> representation = new WriteTemplateRepresentation<FakeSimpleModelWithEnumAndStringEnum>(settings);
-        static string subject;
+        readonly static WriteTemplateRepresentation<FakeSimpleModelWithEnumAndStringEnum> Representation = new WriteTemplateRepresentation<FakeSimpleModelWithEnumAndStringEnum>(Settings);
+        static string _subject;
 
-        Because of = () => subject = CollectionJsonWriter.Serialize(representation);
+        Because of = () => _subject = CollectionJsonWriter.Serialize(Representation);
 
         It should_the_json_options_property_for_fakeEnum_be__array_0_1__ =
-            () => subject.ShouldContain("\"options\":[0,1],");
+            () => _subject.ShouldContain("\"options\":[0,1],");
 
         It should_the_json_options_property_for_fakeStringEnum_be__array_StringVal2_StringVal1__ =
-            () => subject.ShouldContain("\"options\":[\"StringVal2\",\"StringVal1\"],");
+            () => _subject.ShouldContain("\"options\":[\"StringVal2\",\"StringVal1\"],");
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
-            () => subject.ShouldEqual("{\"serialize\":\"Data\",\"data\":[" +
+            () => _subject.ShouldEqual("{\"conversionMethod\":\"Data\",\"data\":[" +
                 "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}," +
                 "{\"name\":\"fakeEnum\",\"value\":0,\"options\":[0,1],\"prompt\":\"Fake Enum\",\"type\":\"FakeEnum\"}," +
                 "{\"name\":\"fakeStringEnum\",\"value\":\"StringVal2\",\"options\":[\"StringVal2\",\"StringVal1\"],\"prompt\":\"Fake String Enum\",\"type\":\"FakeStringEnum\"}" +
@@ -45,7 +46,7 @@ namespace CollectionJsonExtended.Core._Specs
         //    () => subject.ShouldContain("\"name\":\"someStrings\",\"values\":[],");
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
-            () => subject.ShouldEqual("{\"serialize\":\"Data\",\"data\":[" +
+            () => subject.ShouldEqual("{\"conversionMethod\":\"Data\",\"data\":[" +
                 "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
                 ",{\"name\":\"someStrings\",\"values\":[],\"prompt\":\"Some Strings\",\"type\":\"String[]\"}" +
                 ",{\"name\":\"fakeSimpleModels\",\"objects\":[],\"data\":[" +
@@ -68,7 +69,7 @@ namespace CollectionJsonExtended.Core._Specs
         Because of = () => subject = CollectionJsonWriter.Serialize(representation);
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
-            () => subject.ShouldEqual("{\"serialize\":\"Data\",\"data\":[" +
+            () => subject.ShouldEqual("{\"conversionMethod\":\"Data\",\"data\":[" +
                 "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
                 ",{\"name\":\"fakeSimpleModel\",\"object\":null,\"data\":[" +
                         "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
@@ -99,7 +100,7 @@ namespace CollectionJsonExtended.Core._Specs
         Because of = () => subject = CollectionJsonWriter.Serialize(representation);
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
-            () => subject.ShouldEqual("{\"serialize\":\"Data\",\"data\":[" +
+            () => subject.ShouldEqual("{\"conversionMethod\":\"Data\",\"data\":[" +
                 "{\"name\":\"fakeSimpleModel\",\"object\":null,\"data\":[" +
                         "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
                     "],\"prompt\":\"Fake Simple Model\",\"type\":\"FakeSimpleModel\"}" +
@@ -120,7 +121,7 @@ namespace CollectionJsonExtended.Core._Specs
         Because of = () => subject = CollectionJsonWriter.Serialize(representation);
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
-            () => subject.ShouldEqual("{\"serialize\":\"Data\",\"data\":[" +
+            () => subject.ShouldEqual("{\"conversionMethod\":\"Data\",\"data\":[" +
                 "{\"name\":\"int\",\"value\":0,\"prompt\":\"Type a number:\",\"type\":\"Int32\"}" +
                 ",{\"name\":\"long\",\"value\":0,\"prompt\":\"Long\",\"type\":\"Int64\"}" +
                 ",{\"name\":\"float\",\"value\":0.0,\"prompt\":\"Float\",\"type\":\"Single\"}" +
@@ -146,7 +147,7 @@ namespace CollectionJsonExtended.Core._Specs
         Because of = () => subject = CollectionJsonWriter.Serialize(representation);
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
-            () => subject.ShouldEqual("{\"serialize\":\"Data\",\"data\":[" +
+            () => subject.ShouldEqual("{\"conversionMethod\":\"Data\",\"data\":[" +
                 "{\"name\":\"int\",\"value\":null,\"prompt\":\"Int\",\"type\":\"Nullable`1\"}" +
                 ",{\"name\":\"long\",\"value\":null,\"prompt\":\"Long\",\"type\":\"Nullable`1\"}" +
                 ",{\"name\":\"float\",\"value\":null,\"prompt\":\"Float\",\"type\":\"Nullable`1\"}" +
@@ -172,7 +173,7 @@ namespace CollectionJsonExtended.Core._Specs
         Because of = () => subject = CollectionJsonWriter.Serialize(representation);
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
-            () => subject.ShouldEqual("{\"serialize\":\"Entity\",\"data\":[" +
+            () => subject.ShouldEqual("{\"conversionMethod\":\"Entity\",\"data\":[" +
                 "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
                 ",{\"name\":\"fakeAbstractModel\",\"abstract\":null,\"concretes\":[" +
                     "{\"concrete\":\"FakeDerivedComplexModel\",\"data\":[" +
@@ -193,19 +194,21 @@ namespace CollectionJsonExtended.Core._Specs
 
 
     [Subject(typeof(WriteTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
-    public class When_the_template_representaion_entitydata_type_is_serialized_with_FakeComplexModelWithEnumerableOfAbstract
+    public class When_the_template_representaion_entityType_of_data_property_is_serialized_with_FakeComplexModelWithEnumerableOfAbstract
     {
-        readonly static CollectionJsonSerializerSettings settings = new CollectionJsonSerializerSettings
-        {
-            ConversionMethod = ConversionMethod.Entity
-        };
-        readonly static WriteTemplateRepresentation<FakeComplexModelWithEnumerableOfAbstract> representation = new WriteTemplateRepresentation<FakeComplexModelWithEnumerableOfAbstract>(settings);
-        static string subject;
+        private static readonly CollectionJsonSerializerSettings Settings =
+            new CollectionJsonSerializerSettings
+            {
+                ConversionMethod = ConversionMethod.Entity
+            };
+        readonly static WriteTemplateRepresentation<FakeComplexModelWithEnumerableOfAbstract> Representation =
+            new WriteTemplateRepresentation<FakeComplexModelWithEnumerableOfAbstract>(Settings);
+        static string _subject;
 
-        Because of = () => subject = CollectionJsonWriter<FakeComplexModelWithEnumerableOfAbstract>.Serialize(representation);
+        Because of = () => _subject = CollectionJsonWriter<FakeComplexModelWithEnumerableOfAbstract>.Serialize(Representation);
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
-            () => subject.ShouldEqual("{\"serialize\":\"Entity\",\"data\":[" +
+            () => _subject.ShouldEqual("{\"conversionMethod\":\"Entity\",\"data\":[" +
                 "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
                 ",{\"name\":\"fakeAbstractModels\",\"abstracts\":[],\"concretes\":[" +
                     "{\"concrete\":\"FakeDerivedComplexModel\",\"data\":[" +
@@ -228,8 +231,8 @@ namespace CollectionJsonExtended.Core._Specs
 
 
 
-    [Subject(typeof(WriteTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Entity")]
-    public class When_the_template_representaion_entitydata_type_is_serialized_with_the_FakeSimpleModelWithEnumAndStringEnum_as_entity
+    [Subject(typeof(WriteTemplateRepresentation<>), "Serialize TemplateRepresentation with ConversionMethod.Entity")]
+    public class When_the_template_representaion_serialized_with_the_FakeSimpleModelWithEnumAndStringEnum_as_entity
     {
         readonly static CollectionJsonSerializerSettings settings = new CollectionJsonSerializerSettings
         {
@@ -247,12 +250,34 @@ namespace CollectionJsonExtended.Core._Specs
         It should_the_json_options_property_for_fakeStringEnum_be__array_StringVal2_StringVal1__ =
             () => subject.ShouldContain("\"options\":[\"StringVal2\",\"StringVal1\"],");
 
+        private It should_the_json_contain_a_property_conversionMethod___Entity__ =
+            () => subject.ShouldContain("\"conversionMethod\":\"Entity\"");
+        
         It should_the_peoperties_of_the_type_be_reflected_in_json =
-            () => subject.ShouldEqual("{\"serialize\":\"Entity\",\"data\":[" +
+            () => subject.ShouldEqual("{\"conversionMethod\":\"Entity\",\"data\":[" +
                 "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}," +
                 "{\"name\":\"fakeEnum\",\"value\":0,\"options\":[0,1],\"prompt\":\"Fake Enum\",\"type\":\"FakeEnum\"}," +
                 "{\"name\":\"fakeStringEnum\",\"value\":\"StringVal2\",\"options\":[\"StringVal2\",\"StringVal1\"],\"prompt\":\"Fake String Enum\",\"type\":\"FakeStringEnum\"}" +
             "]}");
+    }
+
+
+    [Subject(typeof(WriteTemplateRepresentation<>), "Serialize TemplateRepresentation with ConversionMethod.Entity")]
+    public class When_the_template_representaion_serialized_with_the_FakeIdentifierAttriuteEntitys_as_entity
+    {
+        private static readonly CollectionJsonSerializerSettings Settings =
+            new CollectionJsonSerializerSettings
+            {
+                ConversionMethod = ConversionMethod.Entity
+            };
+        readonly static WriteTemplateRepresentation<FakeComplexModelWithEnumerableOfAbstract> Representation =
+            new WriteTemplateRepresentation<FakeComplexModelWithEnumerableOfAbstract>(Settings);
+        static string _subject;
+
+        Because of = () => _subject = CollectionJsonWriter.Serialize(Representation);
+
+        //It should_the_json_property_for_indentifier_be__TheStringIdentifier1__ =
+        //    () => _subject.ShouldContain("\"entity\":{\"indentifier\":\"TheStringIdentifier1\",\"identifier\":true");
     }
 
 }

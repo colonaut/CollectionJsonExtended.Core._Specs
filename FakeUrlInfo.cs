@@ -1,15 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace CollectionJsonExtended.Core._Specs
 {
 
     public class FakeController
     {
-        public string FakeMethodWithParam(int fakeId, string fakeString)
+        public string FakeMethodWithIntIdParam(int fakeIntId)
         {
-            return "returns FakeMethodWithParam";
+            return "returns FakeMethodWithIntIdParam";
+        }
+
+        public string FakeMethodWithStringIdParam(string fakeStringId)
+        {
+            return "returns FakeMethodWithStringIdParam";
         }
 
         public string FakeMethod()
@@ -17,9 +24,9 @@ namespace CollectionJsonExtended.Core._Specs
             return "returns FakeMethod";
         }
     }
-    
-    
-    public class FakeUrlInfo : UrlInfoProvider
+
+
+    public class FakeUrlInfo : UrlInfoBase
     {
         public FakeUrlInfo(Type entityType)
             : base(entityType)
@@ -28,34 +35,77 @@ namespace CollectionJsonExtended.Core._Specs
 
         public static IEnumerable<FakeUrlInfo> Find(Type entityType)
         {
-            var fakeControllerType = new FakeController().GetType();
-            var list = new List<FakeUrlInfo>();
-            list.Add(new FakeUrlInfo(typeof(FakeIntIdEntity))
-            {
-                Params = fakeControllerType.GetMethod("FakeMethod").GetParameters(),
-                Kind = Is.Base,
-                //Relation = "fakeMethod",
-                VirtualPath = "some/route"
-            });
+            return Cache.Where(c => c.EntityType == entityType) as IEnumerable<FakeUrlInfo>;
 
-            list.Add(new FakeUrlInfo(typeof(FakeIntIdEntity))
-            {
-                Params = fakeControllerType.GetMethod("FakeMethodWithParam").GetParameters(),
-                Kind = Is.Item,
-                //Relation = "fakeMethodWithParam",
-                VirtualPath = "some/route/{fakeId}/{fakeString}"
-            });
-
-            list.Add(new FakeUrlInfo(typeof(FakeIntIdEntity))
-            {
-                Params = fakeControllerType.GetMethod("FakeMethod").GetParameters(),
-                Kind = Is.Query,
-                Relation = "fakeMethod",
-                VirtualPath = "some/route"
-            });
-            return list;
         }
 
+        public static void BuildCache()
+        {
+            var fakeControllerType = new FakeController().GetType();
+
+            new FakeUrlInfo(typeof (FakeIntIdEntity))
+            {
+                Params =
+                    fakeControllerType.GetMethod("FakeMethod")
+                    .GetParameters(),
+                Kind = Is.Base,
+                //Relation = "fakeMethod",
+                VirtualPath = "some/path"
+            }.Publish();
+
+            new FakeUrlInfo(typeof (FakeIntIdEntity))
+            {
+                Params =
+                    fakeControllerType.GetMethod(
+                        "FakeMethodWithIntIdParam").GetParameters(),
+                Kind = Is.Item,
+                //Relation = "fakeMethodWithParam",
+                VirtualPath = "some/path/{fakeId}"
+            }.Publish();
+
+            //this one is double and makes everthing crash! better test for this in extension
+            //    new FakeUrlInfo(typeof (FakeIntIdEntity))
+            //    {
+            //        Params =
+            //            fakeControllerType.GetMethod(
+            //                "FakeMethodWithIntIdParam").GetParameters(),
+            //        Kind = Is.Item,
+            //        //Relation = "fakeMethodWithParam",
+            //        VirtualPath = "some/path/{fakeId}"
+            //    }.Publish;
+
+            new FakeUrlInfo(typeof (FakeIntIdEntity))
+            {
+                Params =
+                    fakeControllerType.GetMethod("FakeMethod")
+                    .GetParameters(),
+                Kind = Is.Query,
+                Relation = "fakeMethod",
+                VirtualPath = "some/path"
+            }.Publish();
+
+            new FakeUrlInfo(typeof (FakeStringIdEntity))
+            {
+                Params = fakeControllerType.GetMethod("FakeMethodWithStringIdParam").GetParameters(),
+                Kind = Is.Item,
+                //Relation = "fakeMethod",
+                VirtualPath = "some/path/{fakeStringId}"
+            }.Publish();
+
+            new FakeUrlInfo(typeof (FakeAttributePrimaryKeyEntity))
+            {
+                Params = fakeControllerType.GetMethod("FakeMethodWithStringIdParam").GetParameters(),
+                Kind = Is.Item,
+                //Relation = "fakeMethodWithParam",
+                VirtualPath = "some/path/{fakeId}/{fakeString}"
+            }.Publish();
+        }
+
+        public static void ClearCache()
+        {
+            Cache.Clear();
+            EntityUrlInfoBaseCache.Clear();
+        }
     }
-    
+
 }

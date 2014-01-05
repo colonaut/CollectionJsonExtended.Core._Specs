@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using CollectionJsonExtended.Core.Extensions;
 using Machine.Specifications;
 
 // ReSharper disable InconsistentNaming
@@ -41,74 +43,67 @@ namespace CollectionJsonExtended.Core._Specs
     {
         //TODO: fill into behavior
         
-        static readonly CollectionJsonSerializerSettings settings =
-            new CollectionJsonSerializerSettings
+        Establish context =
+            () =>
             {
-                ConversionMethod = ConversionMethod.Data
+                FakeUrlInfo.BuildCache();
+               
+            };
+        Cleanup stuff =
+            () =>
+            {
+                FakeUrlInfo.ClearCache();
             };
 
-        static readonly Uri requestUri = new Uri("http://www.example.org/fakerequesturi/1");
 
-        static readonly Type fakeControllerType = new FakeController().GetType();
+        static IEnumerable<UrlInfoBase> urlInfoCollection;
+        static CollectionJsonSerializerSettings settings;
+        static CollectionJsonWriter<FakeIntIdEntity> subject;
 
-        static readonly IEnumerable<UrlInfo> urlInfoCollection =
-            new List<UrlInfo>
+        private Because of =
+            () =>
             {
-                new UrlInfo(typeof (FakeIntIdEntity))
-                {
-                    Params =
-                        fakeControllerType.GetMethod("FakeMethod")
-                        .GetParameters(),
-                    Kind = Is.Base,
-                    //Relation = "fakeMethod",
-                    VirtualPath = "some/route"
-                },
-                new UrlInfo(typeof (FakeIntIdEntity))
-                {
-                    Params =
-                        fakeControllerType.GetMethod(
-                            "FakeMethodWithParam").GetParameters(),
-                    Kind = Is.Item,
-                    //Relation = "fakeMethodWithParam",
-                    VirtualPath = "some/route/{fakeId}/{fakeString}"
-                },
-                new UrlInfo(typeof (FakeIntIdEntity))
-                {
-                    Params =
-                        fakeControllerType.GetMethod("FakeMethod")
-                        .GetParameters(),
-                    Kind = Is.Query,
-                    Relation = "fakeMethod",
-                    VirtualPath = "some/route"
-                }
+                urlInfoCollection = UrlInfoBase.Find(typeof(FakeIntIdEntity));
+                settings = new CollectionJsonSerializerSettings
+                           {
+                               ConversionMethod = ConversionMethod.Data
+                           };
+
+                subject = new CollectionJsonWriter<FakeIntIdEntity>(new FakeIntIdEntity
+                                                          {
+                                                              Id = 1,
+                                                              SomeString = "some string a"
+                                                          }, settings);
             };
 
-        static CollectionJsonWriter<FakeIntIdEntity> _subject;
-           
-        Because of = () => _subject
-            = new CollectionJsonWriter<FakeIntIdEntity>(new FakeIntIdEntity
-                                                        {
-                                                            Id = 1,
-                                                            SomeString = "some string a"
-                                                        }, urlInfoCollection, settings);
+        It should_the_urlInfoCollection_have_items =
+            () => urlInfoCollection.Count().ShouldBeGreaterThan(0);
 
+        It should_foo =
+            () => subject.Collection.GetVirtualPath<FakeIntIdEntity>().ShouldEqual("some/path");
 
-        It should_the_error_property_be_null = () => _subject.Error.ShouldBeNull();
+        It should_the_error_property_be_null =
+            () => subject.Error.ShouldBeNull();
 
         It should_the_collection_property_be_of_type__CollectionRepresentation__ =
-            () => _subject.Collection.ShouldBeOfType<CollectionRepresentation<FakeIntIdEntity>>();
+            () => subject.Collection.ShouldBeOfType<CollectionRepresentation<FakeIntIdEntity>>();
 
         It should_the_colletion_property_be_a_collection_of_items_containing_1_item =
-            () => _subject.Collection.Items.Count.ShouldEqual(1);
+            () => subject.Collection.Items.Count.ShouldEqual(1);
 
         It should_the_the_error_representation_not_be_serialized =
-            () => CollectionJsonWriter.Serialize(_subject, settings).ShouldNotContain("{\"error");
+            () => CollectionJsonWriter.Serialize(subject, settings).ShouldNotContain("{\"error");
 
         It should_the_Collection_Href_property_be__some_route__ =
-            () => _subject.Collection.Href.ShouldEqual("some/route");
+            () => subject.Collection.Href.ShouldEqual("some/path");
 
-        It should_the_Collection_Item_Href_property_be__some_route_bla_blub___ =
-            () => _subject.Collection.Items[0].Href.ShouldEqual("some/route/bla/blub");
+        //TODO current!!!
+        //we must find out how to clear thing after test (Cleanup) as for the testwith route info we want to use the real UrlInfo via our extension methods
+        //Establish context.... and Cleanup.. or behaviour?
+        //we can then get rid of the passing of the collection.... but is this performant? passing is cheaper... NA it'S cached!
+
+        //It should_the_Collection_Item_Href_property_be__some_route_bla_blub___ =
+        //    () => _subject.Collection.Items[0].Href.ShouldEqual("some/route/bla/blub");
 
     }
 

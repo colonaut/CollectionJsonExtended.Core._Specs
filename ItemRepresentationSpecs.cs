@@ -14,16 +14,13 @@ namespace CollectionJsonExtended.Core._Specs
             ConversionMethod = ConversionMethod.Data
         };
         
-        static readonly IEnumerable<UrlInfo> UrlInfo =
-            new List<UrlInfo>{new UrlInfo(typeof(FakeSimpleModelWithEnumAndStringEnum))};
-        
         static readonly ItemRepresentation<FakeSimpleModelWithEnumAndStringEnum> Representation =
             new ItemRepresentation<FakeSimpleModelWithEnumAndStringEnum>(new FakeSimpleModelWithEnumAndStringEnum
                                                                              {
                                                                                  SomeString = "some string",
                                                                                  FakeEnum = FakeEnum.Val2,
                                                                                  FakeStringEnum = FakeStringEnum.StringVal1,
-                                                                             }, Settings, UrlInfo);
+                                                                             }, Settings);
         static string _subject;
 
         Because of = () => _subject = CollectionJsonWriter.Serialize(Representation);
@@ -50,23 +47,20 @@ namespace CollectionJsonExtended.Core._Specs
             ConversionMethod = ConversionMethod.Data
         };
 
-        static readonly IEnumerable<UrlInfo> UrlInfo =
-            new List<UrlInfo>{new UrlInfo(typeof(FakeComplexModelWithArrays))};
-
-        static readonly ItemRepresentation<FakeComplexModelWithArrays> Representation =
+        private static readonly ItemRepresentation<FakeComplexModelWithArrays> Representation =
             new ItemRepresentation<FakeComplexModelWithArrays>(new FakeComplexModelWithArrays
-                                                                   {
-                                                                       SomeString = "some string",
-                                                                       SomeStrings = new[] {"foo", "bar"},
-                                                                       FakeSimpleModels =
-                                                                           new FakeSimpleModel[]
-                                                                               {
-                                                                                   new FakeSimpleModel
-                                                                                       {
-                                                                                           SomeString = "some string in array model"
-                                                                                       }
-                                                                               }
-                                                                   }, settings, UrlInfo);
+                                                               {
+                                                                   SomeString = "some string",
+                                                                   SomeStrings = new[] {"foo", "bar"},
+                                                                   FakeSimpleModels =
+                                                                       new FakeSimpleModel[]
+                                                                       {
+                                                                           new FakeSimpleModel
+                                                                           {
+                                                                               SomeString = "some string in array model"
+                                                                           }
+                                                                       }
+                                                               }, settings);
         static string _subject;
 
         Because of = () => _subject = CollectionJsonWriter.Serialize(Representation);
@@ -95,9 +89,7 @@ namespace CollectionJsonExtended.Core._Specs
             ConversionMethod = ConversionMethod.Data
         };
 
-        static readonly IEnumerable<UrlInfo> UrlInfo =
-            new List<UrlInfo>{new UrlInfo(typeof(FakeComplexModelWithEnumerable))};
-
+        
         static readonly ItemRepresentation<FakeComplexModelWithEnumerable> representation =
             new ItemRepresentation<FakeComplexModelWithEnumerable>(new FakeComplexModelWithEnumerable
                                         {
@@ -132,7 +124,7 @@ namespace CollectionJsonExtended.Core._Specs
                                                                     = "string property in enumerable"
                                                             }
                                                     }
-                                        }, settings, UrlInfo);
+                                        }, settings);
         static string subject;
 
         Because of = () => subject = CollectionJsonWriter.Serialize(representation);
@@ -167,11 +159,8 @@ namespace CollectionJsonExtended.Core._Specs
                 ConversionMethod = ConversionMethod.Data
             };
 
-        static readonly IEnumerable<UrlInfo> UrlInfo =
-            new List<UrlInfo>{new UrlInfo(typeof(FakeComplexModel))};
-
         static readonly ItemRepresentation<FakeComplexModel> Representation = 
-            new ItemRepresentation<FakeComplexModel>(new FakeComplexModel{}, Settings, UrlInfo);
+            new ItemRepresentation<FakeComplexModel>(new FakeComplexModel{}, Settings);
 
         static string _subject;
 
@@ -196,15 +185,13 @@ namespace CollectionJsonExtended.Core._Specs
                 ConversionMethod = ConversionMethod.Data
             };
 
-        static readonly IEnumerable<UrlInfo> UrlInfo =
-            new List<UrlInfo>{new UrlInfo(typeof(FakeSimpleModelWithValueTypes))};
-
+        
         static readonly ItemRepresentation<FakeSimpleModelWithValueTypes> Representation =
             new ItemRepresentation<FakeSimpleModelWithValueTypes>(new FakeSimpleModelWithValueTypes
                                                                       {
                                                                           Int = 123,
                                                                           Char = Convert.ToChar("s")
-                                                                      }, Settings, UrlInfo);
+                                                                      }, Settings);
         static string _subject;
 
         Because of = () => _subject = CollectionJsonWriter.Serialize(Representation);
@@ -234,15 +221,13 @@ namespace CollectionJsonExtended.Core._Specs
                 ConversionMethod = ConversionMethod.Data
             };
 
-        static readonly IEnumerable<UrlInfo> UrlInfo =
-            new List<UrlInfo>{new UrlInfo(typeof(FakeSimpleModelWithNullableValueTypes))};
-
+        
         static readonly ItemRepresentation<FakeSimpleModelWithNullableValueTypes> Representation =
             new ItemRepresentation<FakeSimpleModelWithNullableValueTypes>(new FakeSimpleModelWithNullableValueTypes
             {
                 Int = 123,
                 Decimal = 5
-            }, Settings, UrlInfo);
+            }, Settings);
 
         static string _subject;
 
@@ -273,17 +258,14 @@ namespace CollectionJsonExtended.Core._Specs
             {
                 ConversionMethod = ConversionMethod.Entity
             };
-
-        static readonly IEnumerable<UrlInfo> UrlInfo =
-            new List<UrlInfo>{new UrlInfo(typeof(FakeSimpleModelWithEnumAndStringEnum))};
-
+        
         static readonly ItemRepresentation<FakeSimpleModelWithEnumAndStringEnum> Representation =
             new ItemRepresentation<FakeSimpleModelWithEnumAndStringEnum>(new FakeSimpleModelWithEnumAndStringEnum
             {
                 SomeString = "some string",
                 FakeEnum = FakeEnum.Val2,
                 FakeStringEnum = FakeStringEnum.StringVal1,
-            }, Settings, UrlInfo);
+            }, Settings);
 
         static string _subject;
 

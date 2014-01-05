@@ -33,11 +33,6 @@ namespace CollectionJsonExtended.Core._Specs
         {
         }
 
-        public static IEnumerable<FakeUrlInfo> Find(Type entityType)
-        {
-            return Cache.Where(c => c.EntityType == entityType) as IEnumerable<FakeUrlInfo>;
-
-        }
 
         public static void BuildCache()
         {
@@ -92,19 +87,28 @@ namespace CollectionJsonExtended.Core._Specs
                 VirtualPath = "some/path/{fakeStringId}"
             }.Publish();
 
+            new FakeUrlInfo(typeof(FakeAttributePrimaryKeyEntity))
+            {
+                Params = fakeControllerType.GetMethod("FakeMethodWithStringIdParam").GetParameters(),
+                Kind = Is.Base,
+                //Relation = "fakeMethodWithParam",
+                VirtualPath = "some/path"
+            }.Publish();
+
             new FakeUrlInfo(typeof (FakeAttributePrimaryKeyEntity))
             {
                 Params = fakeControllerType.GetMethod("FakeMethodWithStringIdParam").GetParameters(),
                 Kind = Is.Item,
                 //Relation = "fakeMethodWithParam",
-                VirtualPath = "some/path/{fakeId}/{fakeString}"
+                VirtualPath = "some/path/{fakeStringId}"
             }.Publish();
         }
 
-        public static void ClearCache()
+        public static void CleanUpCache()
         {
-            Cache.Clear();
-            EntityUrlInfoBaseCache.Clear();
+            UrlInfoBase.Remove(typeof(FakeIntIdEntity));
+            UrlInfoBase.Remove(typeof(FakeStringIdEntity));
+            UrlInfoBase.Remove(typeof(FakeAttributePrimaryKeyEntity));
         }
     }
 

@@ -12,16 +12,32 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CollectionJsonExtended.Core._Specs
 {
-    [Subject(typeof(CollectionJsonWriter<>), "CollectionJsonWriter for an error")]
-    public class When_the_CollectionJsonWriter_is_envoked_with_an_error_http_status_code
+    public abstract class CollectionJsonWriterContext
     {
-        static readonly CollectionJsonSerializerSettings settings = new CollectionJsonSerializerSettings
-            {
-                ConversionMethod = ConversionMethod.Data
-            };
+        protected static IEnumerable<UrlInfoBase> urlInfoCollection;
+        protected static CollectionJsonSerializerSettings serializerSettings;
 
+        Establish context =
+            () =>
+            {
+                serializerSettings =
+                    new CollectionJsonSerializerSettings
+                    {
+                        ConversionMethod = ConversionMethod.Data
+                    };
+
+                FakeUrlInfo.AddFakeData();
+            };
+    }
+    
+    
+    [Subject(typeof(CollectionJsonWriter<>),
+        "CollectionJsonWriter for an error")]
+    public class When_the_CollectionJsonWriter_is_envoked_with_an_error_http_status_code
+        : CollectionJsonWriterContext
+    {
+        
         static CollectionJsonWriter<FakeComplexModelWithListOfStrings> _subject;
-            
         
         Because of = () => _subject
             = new CollectionJsonWriter<FakeComplexModelWithListOfStrings>(HttpStatusCode.InternalServerError);
@@ -30,10 +46,10 @@ namespace CollectionJsonExtended.Core._Specs
             = () => _subject.Collection.ShouldBeNull();
         
         It should_the_the_collection_representation_not_be_serialized
-            = () => CollectionJsonWriter.Serialize(_subject, settings).ShouldNotContain("{\"collection");
+            = () => CollectionJsonWriter.Serialize(_subject, serializerSettings).ShouldNotContain("{\"collection");
 
         It should_the_the_error_representation_be_serialized
-            = () => CollectionJsonWriter.Serialize(_subject, settings).ShouldEqual(
+            = () => CollectionJsonWriter.Serialize(_subject, serializerSettings).ShouldEqual(
                       "{\"error\":{" +
                         "\"title\":\"InternalServerError\"," +
                         "\"code\":500" +
@@ -41,38 +57,8 @@ namespace CollectionJsonExtended.Core._Specs
     }
 
 
-    public abstract class CollectionJsonWriterContext
-    {
-        protected static IEnumerable<UrlInfoBase> urlInfoCollection;
-        protected static CollectionJsonSerializerSettings serializerSettings;
-        protected static int countBuild = 0;
-        protected static int countCleanup = 0;
-
-        Establish context = () =>
-        {
-            serializerSettings =
-                new CollectionJsonSerializerSettings
-                {
-                    ConversionMethod = ConversionMethod.Data
-                };
-
-            if (countBuild < 1)
-            {
-                FakeUrlInfo.AddFakeData();
-                countBuild++;
-            }
-        };
-
-        //Cleanup stuff = () =>
-        //{
-        //    FakeUrlInfo.CleanUpCache();
-        //    countCleanup++;
-        //};
-
-    }
-
-    //conflic because cache is static and not mockable...
-    [Subject(typeof(CollectionJsonWriter<>), "CollectionJsonWriter for a collection of FakeIdEntity with 1 item")]
+    [Subject(typeof(CollectionJsonWriter<>),
+        "CollectionJsonWriter for a collection of FakeIdEntity with 1 item")]
     public class When_the_CollectionJsonWriter_is_envoked_with_1_FakeIdEntity_with_ConversionMethod_Data
         : CollectionJsonWriterContext
     {
@@ -94,8 +80,6 @@ namespace CollectionJsonExtended.Core._Specs
                                                                         SomeString = "some string a"
                                                                     }, serializerSettings);
             };
-
-        It should_the_cahce_buildup_for_this_test_have_run_once = () => countBuild.ShouldEqual(1);
         
         It should_the_urlInfoCollection_have_items =
             () => urlInfoCollection.Count().ShouldBeGreaterThan(0);
@@ -123,8 +107,8 @@ namespace CollectionJsonExtended.Core._Specs
         It should_the_Collection_Item_Property_contain_1_item =
             () => subject.Collection.Items.Count.ShouldEqual(1);
 
-        It should_the_Collection_Item_0_Href_property_be___some_path_fakeId___ =
-            () => subject.Collection.Items[0].Href.ShouldEqual("some/path/{fakeId}");
+        //It should_the_Collection_Item_0_Href_property_be___some_path_fakeId___ =
+        //    () => subject.Collection.Items[0].Href.ShouldEqual("some/path/{fakeId}");
 
 
         //Cleanup stuff =
@@ -137,7 +121,8 @@ namespace CollectionJsonExtended.Core._Specs
     }
 
 
-    [Subject(typeof(CollectionJsonWriter<>), "CollectionJsonWriter for a collection of FakeAttributePrimaryKeyEntity with 1 item")]
+    [Subject(typeof(CollectionJsonWriter<>),
+        "CollectionJsonWriter for a collection of FakeAttributePrimaryKeyEntity with 1 item")]
     public class When_the_CollectionJsonWriter_is_envoked_with_1_FakeAttributePrimaryKeyEntity_with_ConversionMethod_Data
         : CollectionJsonWriterContext
     {
@@ -162,17 +147,12 @@ namespace CollectionJsonExtended.Core._Specs
 
             };
 
-        It should_the_cahce_buildup_for_this_test_have_run_once = () => countBuild.ShouldEqual(1);
-
         It should_foo = () => urlInfoCollection.Count().ShouldBeGreaterThan(0);
 
         It should_foo2 = () => urlInfoCollection.Count().ShouldEqual(2);
 
-        //It should_GetVirtualPath_extension_method_return__some_path__ =
-        //    () => subject.Collection.Items[0].GetVirtualPath().ShouldEqual("some/path");
-
-        //private It should_foo3 =
-        //    () => subject.Collection.Items[0].Href.ShouldEqual("to be done");
+        //It the_Collection_Items_0_Href_Property_be__some_path__ =
+        //    () => subject.Collection.Items[0].Href.ShouldEqual("some/path");
 
 
         //private Cleanup stuff =

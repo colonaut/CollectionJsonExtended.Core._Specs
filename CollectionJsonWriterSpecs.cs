@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Threading;
 using CollectionJsonExtended.Core.Extensions;
 using Machine.Specifications;
-using Machine.Fakes;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 // ReSharper disable InconsistentNaming
 
@@ -25,6 +21,9 @@ namespace CollectionJsonExtended.Core._Specs
                     {
                         ConversionMethod = ConversionMethod.Data
                     };
+
+                //var singletonFactory =
+                    new SingletonFactory<UrlInfoCollection>();
 
                 FakeUrlInfo.AddFakeData();
             };
@@ -62,11 +61,15 @@ namespace CollectionJsonExtended.Core._Specs
     public class When_the_CollectionJsonWriter_is_envoked_with_1_FakeIdEntity_with_ConversionMethod_Data
         : CollectionJsonWriterContext
     {
-        //TODO: fill into behavior and this does not work... how to cleanup???
         Establish context =
             () =>
             {
-                urlInfoCollection = Singleton<UrlInfoCollection>.Instance
+                var singletonFactory =
+                    new SingletonFactory<UrlInfoCollection>();
+
+                //FakeUrlInfo.AddFakeData();
+
+                urlInfoCollection = singletonFactory.GetInstance()
                     .Find(typeof(FakeIntIdEntity));
             };
 
@@ -80,13 +83,13 @@ namespace CollectionJsonExtended.Core._Specs
                                                                         SomeString = "some string a"
                                                                     }, serializerSettings);
             };
-        
-        It should_the_urlInfoCollection_have_items =
+
+        private It should_the_urlInfoCollection_have_items =
             () => urlInfoCollection.Count().ShouldBeGreaterThan(0);
 
         It should_foo2 = () => urlInfoCollection.Count().ShouldEqual(3);
 
-        It should_GetVirtualPath_extension_method_return__some_path__ =
+        private It should_GetVirtualPath_extension_method_return__some_path__ =
             () => subject.Collection.GetVirtualPath<FakeIntIdEntity>().ShouldEqual("some/path");
 
         It should_the_error_property_be_null =
@@ -109,15 +112,6 @@ namespace CollectionJsonExtended.Core._Specs
 
         //It should_the_Collection_Item_0_Href_property_be___some_path_fakeId___ =
         //    () => subject.Collection.Items[0].Href.ShouldEqual("some/path/{fakeId}");
-
-
-        //Cleanup stuff =
-        //    () =>
-        //    {
-        //        FakeUrlInfo.CleanUpCache();
-        //    };
-
-
     }
 
 
@@ -129,7 +123,12 @@ namespace CollectionJsonExtended.Core._Specs
         Establish context =
             () =>
             {
-                urlInfoCollection = Singleton<UrlInfoCollection>.Instance
+                var singletonFactory =
+                    new SingletonFactory<UrlInfoCollection>();
+
+                //FakeUrlInfo.AddFakeData();
+
+                urlInfoCollection = singletonFactory.GetInstance()
                     .Find(typeof(FakeAttributePrimaryKeyEntity));
             };
 
@@ -155,11 +154,6 @@ namespace CollectionJsonExtended.Core._Specs
         //    () => subject.Collection.Items[0].Href.ShouldEqual("some/path");
 
 
-        //private Cleanup stuff =
-        //    () =>
-        //    {
-        //        FakeUrlInfo.CleanUpCache();
-        //    };
 
     }
 

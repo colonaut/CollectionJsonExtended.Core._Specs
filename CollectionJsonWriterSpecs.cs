@@ -1,16 +1,141 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using CollectionJsonExtended.Core.Extensions;
+using Machine.Fakes;
 using Machine.Specifications;
 
 // ReSharper disable InconsistentNaming
 
 namespace CollectionJsonExtended.Core._Specs
 {
-    public abstract class CollectionJsonWriterContext
+    public class FakeController
     {
-        protected static IEnumerable<UrlInfoBase> urlInfoCollection;
+        public string FakeMethodWithIntIdParam(int fakeIntId)
+        {
+            return "returns FakeMethodWithIntIdParam";
+        }
+
+        public string FakeMethodWithStringIdParam(string fakeStringId)
+        {
+            return "returns FakeMethodWithStringIdParam";
+        }
+
+        public string FakeMethod()
+        {
+            return "returns FakeMethod";
+        }
+    }
+
+
+    public class FakeUrlInfo : UrlInfoBase
+    {
+        private static readonly List<FakeUrlInfo> TestCollectionData;
+
+        static FakeUrlInfo()
+        {
+            var fakeControllerType = new FakeController().GetType();
+
+            TestCollectionData =
+                new List<FakeUrlInfo>
+                {
+                    new FakeUrlInfo(typeof (FakeIntIdEntity))
+                    {
+                        Params =
+                            fakeControllerType.GetMethod("FakeMethod")
+                            .GetParameters(),
+                        Kind = Is.Base,
+                        //Relation = "fakeMethod",
+                        VirtualPath = "some/path"
+                    },
+
+                    new FakeUrlInfo(typeof (FakeIntIdEntity))
+                    {
+                        Params =
+                            fakeControllerType.GetMethod(
+                                "FakeMethodWithIntIdParam").GetParameters(),
+                        Kind = Is.Item,
+                        //Relation = "fakeMethodWithParam",
+                        VirtualPath = "some/path/{fakeId}"
+                    },
+
+                    //this one is double and makes everthing crash! better test for this in extension
+                    //    new FakeUrlInfo(typeof (FakeIntIdEntity))
+                    //    {
+                    //        Params =
+                    //            fakeControllerType.GetMethod(
+                    //                "FakeMethodWithIntIdParam").GetParameters(),
+                    //        Kind = Is.Item,
+                    //        //Relation = "fakeMethodWithParam",
+                    //        VirtualPath = "some/path/{fakeId}"
+                    //    },
+
+                    new FakeUrlInfo(typeof (FakeIntIdEntity))
+                    {
+                        Params =
+                            fakeControllerType.GetMethod("FakeMethod")
+                            .GetParameters(),
+                        Kind = Is.Query,
+                        Relation = "fakeMethod",
+                        VirtualPath = "some/path"
+                    },
+
+                    new FakeUrlInfo(typeof (FakeStringIdEntity))
+                    {
+                        Params =
+                            fakeControllerType.GetMethod("FakeMethodWithStringIdParam")
+                            .GetParameters(),
+                        Kind = Is.Item,
+                        //Relation = "fakeMethod",
+                        VirtualPath = "some/path/{fakeStringId}"
+                    },
+
+                    new FakeUrlInfo(typeof (FakeAttributePrimaryKeyEntity))
+                    {
+                        Params =
+                            fakeControllerType.GetMethod("FakeMethodWithStringIdParam")
+                            .GetParameters(),
+                        Kind = Is.Base,
+                        //Relation = "fakeMethodWithParam",
+                        VirtualPath = "some/path"
+                    },
+
+                    new FakeUrlInfo(typeof (FakeAttributePrimaryKeyEntity))
+                    {
+                        Params =
+                            fakeControllerType.GetMethod("FakeMethodWithStringIdParam")
+                            .GetParameters(),
+                        Kind = Is.Item,
+                        //Relation = "fakeMethodWithParam",
+                        VirtualPath = "some/path/{fakeStringId}"
+                    }
+                };
+        }
+
+        public FakeUrlInfo(Type entityType)
+            : base(entityType)
+        {
+        }
+
+        public static void AddFakeData()
+        {
+            foreach (var fakeUrlInfo in TestCollectionData)
+                fakeUrlInfo.Publish();
+        }
+
+        public static void AddFakeData(UrlInfoCollection urlInfoCollectionInstance)
+        {
+            foreach (var fakeUrlInfo in TestCollectionData.ToList())
+                urlInfoCollectionInstance.Add(fakeUrlInfo);
+        }
+    }
+    
+    
+    public abstract class CollectionJsonWriterContext
+        : WithFakes
+    {
+        protected static IEnumerable<UrlInfoBase> subjectUrlInfoCollection;
         protected static CollectionJsonSerializerSettings serializerSettings;
 
         Establish context =
@@ -22,10 +147,12 @@ namespace CollectionJsonExtended.Core._Specs
                         ConversionMethod = ConversionMethod.Data
                     };
 
-                //var singletonFactory =
-                    new SingletonFactory<UrlInfoCollection>();
+                var urlInfoCollectionInstance = new UrlInfoCollection();
+                    FakeUrlInfo.AddFakeData(urlInfoCollectionInstance);
 
-                FakeUrlInfo.AddFakeData();
+                var singletonFactory =
+                    new SingletonFactory<UrlInfoCollection>(() => urlInfoCollectionInstance);
+                
             };
     }
     
@@ -64,13 +191,18 @@ namespace CollectionJsonExtended.Core._Specs
         Establish context =
             () =>
             {
-                var singletonFactory =
-                    new SingletonFactory<UrlInfoCollection>();
 
-                //FakeUrlInfo.AddFakeData();
+                //var urlInfoCollectionInstance = new UrlInfoCollection();
+                //FakeUrlInfo.AddFakeData(urlInfoCollectionInstance);
 
-                urlInfoCollection = singletonFactory.GetInstance()
-                    .Find(typeof(FakeIntIdEntity));
+                //var anSingletonFactory =
+                //    An<SingletonFactory<UrlInfoCollection>>();
+                //anSingletonFactory.WhenToldTo(x => x.GetInstance())
+                //    .Return(urlInfoCollectionInstance);
+
+                subjectUrlInfoCollection =
+                    SingletonFactory<UrlInfoCollection>.Instance
+                        .Find(typeof (FakeIntIdEntity));
             };
 
         static CollectionJsonWriter<FakeIntIdEntity> subject;
@@ -85,9 +217,9 @@ namespace CollectionJsonExtended.Core._Specs
             };
 
         private It should_the_urlInfoCollection_have_items =
-            () => urlInfoCollection.Count().ShouldBeGreaterThan(0);
+            () => subjectUrlInfoCollection.Count().ShouldBeGreaterThan(0);
 
-        It should_foo2 = () => urlInfoCollection.Count().ShouldEqual(3);
+        It should_foo2 = () => subjectUrlInfoCollection.Count().ShouldEqual(3);
 
         private It should_GetVirtualPath_extension_method_return__some_path__ =
             () => subject.Collection.GetVirtualPath<FakeIntIdEntity>().ShouldEqual("some/path");
@@ -123,13 +255,17 @@ namespace CollectionJsonExtended.Core._Specs
         Establish context =
             () =>
             {
-                var singletonFactory =
-                    new SingletonFactory<UrlInfoCollection>();
+                //var urlInfoCollectionInstance = new UrlInfoCollection();
+                //FakeUrlInfo.AddFakeData(urlInfoCollectionInstance);
 
-                //FakeUrlInfo.AddFakeData();
+                //var anSingletonFactory =
+                //    An<SingletonFactory<UrlInfoCollection>>();
+                //anSingletonFactory.WhenToldTo(x => x.GetInstance())
+                //    .Return(urlInfoCollectionInstance);
 
-                urlInfoCollection = singletonFactory.GetInstance()
-                    .Find(typeof(FakeAttributePrimaryKeyEntity));
+                subjectUrlInfoCollection =
+                     SingletonFactory<UrlInfoCollection>.Instance
+                     .Find(typeof(FakeAttributePrimaryKeyEntity));
             };
 
         static CollectionJsonWriter<FakeAttributePrimaryKeyEntity> subject;
@@ -146,9 +282,9 @@ namespace CollectionJsonExtended.Core._Specs
 
             };
 
-        It should_foo = () => urlInfoCollection.Count().ShouldBeGreaterThan(0);
+        It should_foo = () => subjectUrlInfoCollection.Count().ShouldBeGreaterThan(0);
 
-        It should_foo2 = () => urlInfoCollection.Count().ShouldEqual(2);
+        It should_foo2 = () => subjectUrlInfoCollection.Count().ShouldEqual(2);
 
         //It the_Collection_Items_0_Href_Property_be__some_path__ =
         //    () => subject.Collection.Items[0].Href.ShouldEqual("some/path");

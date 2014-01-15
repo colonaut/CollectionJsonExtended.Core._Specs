@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Reflection;
+using CollectionJsonExtended.Core.Attributes;
 using CollectionJsonExtended.Core.Extensions;
 using Machine.Fakes;
 using Machine.Specifications;
@@ -42,9 +44,6 @@ namespace CollectionJsonExtended.Core._Specs
                 {
                     new FakeUrlInfo(typeof (FakeIntIdEntity))
                     {
-                        Params =
-                            fakeControllerType.GetMethod("FakeMethod")
-                            .GetParameters(),
                         Kind = Is.Base,
                         //Relation = "fakeMethod",
                         VirtualPath = "some/path"
@@ -52,9 +51,10 @@ namespace CollectionJsonExtended.Core._Specs
 
                     new FakeUrlInfo(typeof (FakeIntIdEntity))
                     {
-                        Params =
-                            fakeControllerType.GetMethod(
-                                "FakeMethodWithIntIdParam").GetParameters(),
+                        PrimaryKeyProperty = typeof (FakeIntIdEntity).GetProperty("Id", BindingFlags.Instance
+                                   | BindingFlags.IgnoreCase
+                                   | BindingFlags.Public),
+                        PrimaryKeyTemplate = "{fakeId}",
                         Kind = Is.Item,
                         //Relation = "fakeMethodWithParam",
                         VirtualPath = "some/path/{fakeId}"
@@ -63,9 +63,10 @@ namespace CollectionJsonExtended.Core._Specs
                     //this one is double and makes everthing crash! better test for this in extension
                     //    new FakeUrlInfo(typeof (FakeIntIdEntity))
                     //    {
-                    //        Params =
-                    //            fakeControllerType.GetMethod(
-                    //                "FakeMethodWithIntIdParam").GetParameters(),
+                    //        PrimaryKeyProperty = typeof (FakeIntIdEntity).GetProperty("Id", BindingFlags.Instance
+                    //              | BindingFlags.IgnoreCase
+                    //              | BindingFlags.Public),
+                    //        PrimaryKeyTemplate = "{fakeId}",
                     //        Kind = Is.Item,
                     //        //Relation = "fakeMethodWithParam",
                     //        VirtualPath = "some/path/{fakeId}"
@@ -73,9 +74,6 @@ namespace CollectionJsonExtended.Core._Specs
 
                     new FakeUrlInfo(typeof (FakeIntIdEntity))
                     {
-                        Params =
-                            fakeControllerType.GetMethod("FakeMethod")
-                            .GetParameters(),
                         Kind = Is.Query,
                         Relation = "fakeMethod",
                         VirtualPath = "some/path"
@@ -83,9 +81,10 @@ namespace CollectionJsonExtended.Core._Specs
 
                     new FakeUrlInfo(typeof (FakeStringIdEntity))
                     {
-                        Params =
-                            fakeControllerType.GetMethod("FakeMethodWithStringIdParam")
-                            .GetParameters(),
+                        PrimaryKeyProperty = typeof (FakeStringIdEntity).GetProperty("Id", BindingFlags.Instance
+                                   | BindingFlags.IgnoreCase
+                                   | BindingFlags.Public),
+                        PrimaryKeyTemplate = "{fakeStringId}",
                         Kind = Is.Item,
                         //Relation = "fakeMethod",
                         VirtualPath = "some/path/{fakeStringId}"
@@ -93,9 +92,6 @@ namespace CollectionJsonExtended.Core._Specs
 
                     new FakeUrlInfo(typeof (FakeAttributePrimaryKeyEntity))
                     {
-                        Params =
-                            fakeControllerType.GetMethod("FakeMethodWithStringIdParam")
-                            .GetParameters(),
                         Kind = Is.Base,
                         //Relation = "fakeMethodWithParam",
                         VirtualPath = "some/path"
@@ -103,9 +99,13 @@ namespace CollectionJsonExtended.Core._Specs
 
                     new FakeUrlInfo(typeof (FakeAttributePrimaryKeyEntity))
                     {
-                        Params =
-                            fakeControllerType.GetMethod("FakeMethodWithStringIdParam")
-                            .GetParameters(),
+                        PrimaryKeyProperty = typeof (FakeAttributePrimaryKeyEntity).GetProperties()
+                            .SingleOrDefault(p =>
+                            {
+                                var a = p.GetCustomAttribute<CollectionJsonPropertyAttribute>();
+                                return a != null && a.IsPrimaryKey;
+                            }),
+                        PrimaryKeyTemplate = "{fakeStringId}",
                         Kind = Is.Item,
                         //Relation = "fakeMethodWithParam",
                         VirtualPath = "some/path/{fakeStringId}"
@@ -113,17 +113,13 @@ namespace CollectionJsonExtended.Core._Specs
                 };
         }
 
+
         public FakeUrlInfo(Type entityType)
             : base(entityType)
         {
         }
 
-        public static void AddFakeData()
-        {
-            foreach (var fakeUrlInfo in TestCollectionData)
-                fakeUrlInfo.Publish();
-        }
-
+       
         public static void AddFakeData(UrlInfoCollection urlInfoCollectionInstance)
         {
             foreach (var fakeUrlInfo in TestCollectionData.ToList())
@@ -211,18 +207,18 @@ namespace CollectionJsonExtended.Core._Specs
             {
                 subject = new CollectionJsonWriter<FakeIntIdEntity>(new FakeIntIdEntity
                                                                     {
-                                                                        Id = 1,
+                                                                        Id = 7773,
                                                                         SomeString = "some string a"
                                                                     }, serializerSettings);
             };
 
-        private It should_the_urlInfoCollection_have_items =
+        It should_the_urlInfoCollection_have_items =
             () => subjectUrlInfoCollection.Count().ShouldBeGreaterThan(0);
 
         It should_foo2 = () => subjectUrlInfoCollection.Count().ShouldEqual(3);
 
-        private It should_GetVirtualPath_extension_method_return__some_path__ =
-            () => subject.Collection.GetVirtualPath<FakeIntIdEntity>().ShouldEqual("some/path");
+        It should_GetVirtualPath_extension_method_return__some_path__ =
+            () => subject.Collection.ParseVirtualPath<FakeIntIdEntity>().ShouldEqual("some/path");
 
         It should_the_error_property_be_null =
             () => subject.Error.ShouldBeNull();
@@ -242,8 +238,8 @@ namespace CollectionJsonExtended.Core._Specs
         It should_the_Collection_Item_Property_contain_1_item =
             () => subject.Collection.Items.Count.ShouldEqual(1);
 
-        //It should_the_Collection_Item_0_Href_property_be___some_path_fakeId___ =
-        //    () => subject.Collection.Items[0].Href.ShouldEqual("some/path/{fakeId}");
+        It should_the_Collection_Item_0_Href_property_be___some_path_7773___ =
+            () => subject.Collection.Items[0].Href.ShouldEqual("some/path/7773");
     }
 
 
@@ -286,10 +282,8 @@ namespace CollectionJsonExtended.Core._Specs
 
         It should_foo2 = () => subjectUrlInfoCollection.Count().ShouldEqual(2);
 
-        //It the_Collection_Items_0_Href_Property_be__some_path__ =
-        //    () => subject.Collection.Items[0].Href.ShouldEqual("some/path");
-
-
+        It the_Collection_Items_0_Href_Property_be__some_path_ThePrimaryKey__ =
+            () => subject.Collection.Items[0].Href.ShouldEqual("some/path/ThePrimaryKey");
 
     }
 

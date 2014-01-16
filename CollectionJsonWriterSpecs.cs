@@ -33,7 +33,7 @@ namespace CollectionJsonExtended.Core._Specs
 
     public class FakeUrlInfo : UrlInfoBase
     {
-        private static readonly List<FakeUrlInfo> TestCollectionData;
+        static readonly List<FakeUrlInfo> TestCollectionData;
 
         static FakeUrlInfo()
         {

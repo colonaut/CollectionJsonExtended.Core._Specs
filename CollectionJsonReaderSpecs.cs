@@ -260,7 +260,7 @@ namespace CollectionJsonExtended.Core._Specs
             () => _subject = CollectionJsonReader<FakeComplexModelWithAbstract>.Deserialize(
             "{\"template\":{\"data\":[" +
                 "{\"name\":\"someString\",\"value\":\"foo bar\"}" +
-                ",{\"name\":\"fakeAbstractModel\",\"abstract\":{\"data\":[" +
+                ",{\"name\":\"fakeAbstractModel\",\"object\":{\"data\":[" +
                     "{\"name\":\"abstractString\",\"value\":\"abstract foo\"}" +
                     ",{\"name\":\"derivedAdditionalString\",\"value\":\"abstract bar\"}" +
                 "],\"type\":\"FakeDerivedComplexModel\"}}" +
@@ -295,7 +295,7 @@ namespace CollectionJsonExtended.Core._Specs
             () => _subject = CollectionJsonReader<FakeComplexModelWithEnumerableOfAbstract>.Deserialize(
             "{\"template\":{\"data\":[" +
                 "{\"name\":\"someString\",\"value\":\"foo bar\"}" +
-                ",{\"name\":\"fakeAbstractModels\",\"abstracts\":[" +
+                ",{\"name\":\"fakeAbstractModels\",\"objects\":[" +
                     "{\"data\":[" +
                         "{\"name\":\"abstractString\",\"value\":\"abstract foo\"}" +
                         ",{\"name\":\"derivedAdditionalString\",\"value\":\"abstract bar\"}" +

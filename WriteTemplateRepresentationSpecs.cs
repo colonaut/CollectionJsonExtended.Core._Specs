@@ -175,7 +175,7 @@ namespace CollectionJsonExtended.Core._Specs
         It should_the_peoperties_of_the_type_be_reflected_in_json =
             () => _subject.ShouldEqual("{\"conversionMethod\":\"Entity\",\"data\":[" +
                 "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
-                ",{\"name\":\"fakeAbstractModel\",\"abstract\":null,\"concretes\":[" +
+                ",{\"name\":\"fakeAbstractModel\",\"object\":null,\"select\":[" +
                     "{\"type\":\"FakeDerivedComplexModel\",\"data\":[" +
                         "{\"name\":\"abstractString\",\"value\":\"\",\"prompt\":\"Abstract String\",\"type\":\"String\"}" +
                         ",{\"name\":\"derivedAdditionalString\",\"value\":\"\",\"prompt\":\"Derived Additional String\",\"type\":\"String\"}" +
@@ -210,7 +210,7 @@ namespace CollectionJsonExtended.Core._Specs
         It should_the_peoperties_of_the_type_be_reflected_in_json =
             () => _subject.ShouldEqual("{\"conversionMethod\":\"Entity\",\"data\":[" +
                 "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
-                ",{\"name\":\"fakeAbstractModels\",\"abstracts\":[],\"concretes\":[" +
+                ",{\"name\":\"fakeAbstractModels\",\"objects\":[],\"select\":[" +
                     "{\"type\":\"FakeDerivedComplexModel\",\"data\":[" +
                         "{\"name\":\"abstractString\",\"value\":\"\",\"prompt\":\"Abstract String\",\"type\":\"String\"}" +
                         ",{\"name\":\"derivedAdditionalString\",\"value\":\"\",\"prompt\":\"Derived Additional String\",\"type\":\"String\"}" +

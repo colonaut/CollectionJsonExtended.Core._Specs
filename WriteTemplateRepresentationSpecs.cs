@@ -167,23 +167,23 @@ namespace CollectionJsonExtended.Core._Specs
             {
                 ConversionMethod = ConversionMethod.Entity
             };
-        readonly static WriteTemplateRepresentation<FakeComplexModelWithAbstract> representation = new WriteTemplateRepresentation<FakeComplexModelWithAbstract>(settings);
-        static string subject;
+        readonly static WriteTemplateRepresentation<FakeComplexModelWithAbstract> Representation = new WriteTemplateRepresentation<FakeComplexModelWithAbstract>(settings);
+        static string _subject;
 
-        Because of = () => subject = CollectionJsonWriter.Serialize(representation);
+        Because of = () => _subject = CollectionJsonWriter.Serialize(Representation);
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
-            () => subject.ShouldEqual("{\"conversionMethod\":\"Entity\",\"data\":[" +
+            () => _subject.ShouldEqual("{\"conversionMethod\":\"Entity\",\"data\":[" +
                 "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
                 ",{\"name\":\"fakeAbstractModel\",\"abstract\":null,\"concretes\":[" +
-                    "{\"concrete\":\"FakeDerivedComplexModel\",\"data\":[" +
+                    "{\"type\":\"FakeDerivedComplexModel\",\"data\":[" +
                         "{\"name\":\"abstractString\",\"value\":\"\",\"prompt\":\"Abstract String\",\"type\":\"String\"}" +
                         ",{\"name\":\"derivedAdditionalString\",\"value\":\"\",\"prompt\":\"Derived Additional String\",\"type\":\"String\"}" +
                         ",{\"name\":\"fakeSimpleModel\",\"object\":null,\"data\":[" +
                             "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
                         "],\"prompt\":\"Fake Simple Model\",\"type\":\"FakeSimpleModel\"}" +
                     "]}" +
-                    ",{\"concrete\":\"FakeDerivedModel\",\"data\":[" +
+                    ",{\"type\":\"FakeDerivedModel\",\"data\":[" +
                         "{\"name\":\"abstractString\",\"value\":\"\",\"prompt\":\"Abstract String\",\"type\":\"String\"}" +
                         ",{\"name\":\"derivedAdditionalString\",\"value\":\"\",\"prompt\":\"Derived Additional String\",\"type\":\"String\"}" +
                     "]}" +
@@ -211,14 +211,14 @@ namespace CollectionJsonExtended.Core._Specs
             () => _subject.ShouldEqual("{\"conversionMethod\":\"Entity\",\"data\":[" +
                 "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
                 ",{\"name\":\"fakeAbstractModels\",\"abstracts\":[],\"concretes\":[" +
-                    "{\"concrete\":\"FakeDerivedComplexModel\",\"data\":[" +
+                    "{\"type\":\"FakeDerivedComplexModel\",\"data\":[" +
                         "{\"name\":\"abstractString\",\"value\":\"\",\"prompt\":\"Abstract String\",\"type\":\"String\"}" +
                         ",{\"name\":\"derivedAdditionalString\",\"value\":\"\",\"prompt\":\"Derived Additional String\",\"type\":\"String\"}" +
                         ",{\"name\":\"fakeSimpleModel\",\"object\":null,\"data\":[" +
                             "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
                         "],\"prompt\":\"Fake Simple Model\",\"type\":\"FakeSimpleModel\"}" +
                     "]}" +
-                    ",{\"concrete\":\"FakeDerivedModel\",\"data\":[" +
+                    ",{\"type\":\"FakeDerivedModel\",\"data\":[" +
                         "{\"name\":\"abstractString\",\"value\":\"\",\"prompt\":\"Abstract String\",\"type\":\"String\"}" +
                         ",{\"name\":\"derivedAdditionalString\",\"value\":\"\",\"prompt\":\"Derived Additional String\",\"type\":\"String\"}" +
                     "]}" +

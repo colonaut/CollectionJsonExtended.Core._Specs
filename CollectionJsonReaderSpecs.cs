@@ -263,7 +263,7 @@ namespace CollectionJsonExtended.Core._Specs
                 ",{\"name\":\"fakeAbstractModel\",\"abstract\":{\"data\":[" +
                     "{\"name\":\"abstractString\",\"value\":\"abstract foo\"}" +
                     ",{\"name\":\"derivedAdditionalString\",\"value\":\"abstract bar\"}" +
-                "],\"concrete\":\"FakeDerivedComplexModel\"}}" +
+                "],\"type\":\"FakeDerivedComplexModel\"}}" +
             "]}}");
 
 
@@ -273,7 +273,7 @@ namespace CollectionJsonExtended.Core._Specs
 
         private It should_the_property__someString___be__foo_bar__ = () => _subject.Entity.SomeString.ShouldEqual("foo bar");
 
-        private It should_the = () => _subject.Entity.FakeAbstractModel.ShouldBeOfType<FakeDerivedComplexModel>();
+        private It should_the__FakeAbstractModel__property_be__FakeDerivedComplexModel__ = () => _subject.Entity.FakeAbstractModel.ShouldBeOfType<FakeDerivedComplexModel>();
 
         private It should_the_property_of_the_subclass__abstractString___be__the_second__
             = () => _subject.Entity.FakeAbstractModel.AbstractString.ShouldEqual("abstract foo");
@@ -299,7 +299,7 @@ namespace CollectionJsonExtended.Core._Specs
                     "{\"data\":[" +
                         "{\"name\":\"abstractString\",\"value\":\"abstract foo\"}" +
                         ",{\"name\":\"derivedAdditionalString\",\"value\":\"abstract bar\"}" +
-                    "],\"concrete\":\"FakeDerivedComplexModel\"}" +
+                    "],\"type\":\"FakeDerivedComplexModel\"}" +
                 "]}" +
             "]}}");
 
@@ -336,7 +336,7 @@ namespace CollectionJsonExtended.Core._Specs
 
 
 
-    [Subject(typeof(CollectionJsonReader<>), "Deserialize Template of CollectionJsonReader")]
+    [Subject(typeof(CollectionJsonReader<>), "Deserialize template of CollectionJsonReader")]
     public class When_the_CollectionJsonTemplate_is_envoked_for_FakeSimpleModel_with_valid_json_for_entity
     {
         static CollectionJsonReader<FakeSimpleModel> _subject;

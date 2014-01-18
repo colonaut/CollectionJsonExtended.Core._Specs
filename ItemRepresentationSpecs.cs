@@ -2,25 +2,60 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Machine.Specifications;
+using Rhino.Mocks.Constraints;
 
 namespace CollectionJsonExtended.Core._Specs
 {
+    internal abstract class ItemRepresentationAsDataContext
+    {
+        protected static IEnumerable<UrlInfoBase> UrlInfoCollection;
+
+        protected static CollectionJsonSerializerSettings SettingsData =
+            new CollectionJsonSerializerSettings
+            {
+                ConversionMethod = ConversionMethod.Data
+            };
+        
+        Establish context =
+            () =>
+            {
+                
+                UrlInfoCollection = new List<UrlInfoBase>();
+                
+            };
+    }
+
+    internal abstract class ItemRepresentationAsEntityContext
+    {
+        protected static IEnumerable<UrlInfoBase> UrlInfoCollection;
+        protected readonly static CollectionJsonSerializerSettings SettingsEntity =
+            new CollectionJsonSerializerSettings
+                {
+                    ConversionMethod = ConversionMethod.Entity
+                };
+
+        Establish context =
+            () =>
+            {
+                
+                UrlInfoCollection = new List<UrlInfoBase>();
+
+            };
+    }
+
+    //TODO: SerializerSettings mal auf Sibgleton umstellen.. ??? also nur weil schöner....
 
     [Subject(typeof(ItemRepresentation<>), "Serialize Type ItemRepresentation.Data representation")]
-    public class When_the_item_representaion_with_FakeSimpleModelWithEnumAndStringEnum_is_serialized
+    internal class When_the_item_representaion_with_FakeSimpleModelWithEnumAndStringEnum_is_serialized
+        : ItemRepresentationAsDataContext
     {
-        static readonly CollectionJsonSerializerSettings Settings = new CollectionJsonSerializerSettings
-        {
-            ConversionMethod = ConversionMethod.Data
-        };
-        
         static readonly ItemRepresentation<FakeSimpleModelWithEnumAndStringEnum> Representation =
             new ItemRepresentation<FakeSimpleModelWithEnumAndStringEnum>(new FakeSimpleModelWithEnumAndStringEnum
                                                                              {
                                                                                  SomeString = "some string",
                                                                                  FakeEnum = FakeEnum.Val2,
                                                                                  FakeStringEnum = FakeStringEnum.StringVal1,
-                                                                             }, Settings);
+                                                                             }, UrlInfoCollection, SettingsData);
         static string _subject;
 
         Because of = () => _subject = CollectionJsonWriter.Serialize(Representation);
@@ -40,18 +75,14 @@ namespace CollectionJsonExtended.Core._Specs
 
 
     [Subject(typeof(ItemRepresentation<>), "Serialize Type ItemRepresentation.Data representation")]
-    public class When_the_item_representaion_with_FakeComplexModelWithArrays_is_serialized
+    internal class When_the_item_representaion_with_FakeComplexModelWithArrays_is_serialized
+        : ItemRepresentationAsDataContext
     {
-        static readonly CollectionJsonSerializerSettings settings = new CollectionJsonSerializerSettings
-        {
-            ConversionMethod = ConversionMethod.Data
-        };
-
-        private static readonly ItemRepresentation<FakeComplexModelWithArrays> Representation =
+        static readonly ItemRepresentation<FakeComplexModelWithArrays> Representation =
             new ItemRepresentation<FakeComplexModelWithArrays>(new FakeComplexModelWithArrays
                                                                {
                                                                    SomeString = "some string",
-                                                                   SomeStrings = new[] {"foo", "bar"},
+                                                                   SomeStrings = new[] { "foo", "bar" },
                                                                    FakeSimpleModels =
                                                                        new FakeSimpleModel[]
                                                                        {
@@ -60,7 +91,7 @@ namespace CollectionJsonExtended.Core._Specs
                                                                                SomeString = "some string in array model"
                                                                            }
                                                                        }
-                                                               }, settings);
+                                                               }, UrlInfoCollection, SettingsData);
         static string _subject;
 
         Because of = () => _subject = CollectionJsonWriter.Serialize(Representation);
@@ -82,55 +113,52 @@ namespace CollectionJsonExtended.Core._Specs
 
 
     [Subject(typeof(ItemRepresentation<>), "Serialize Type ItemRepresentation.Data representation")]
-    public class When_the_item_representaion_with_FakeComplexModelWithEnumerable_is_serialized
+    internal class When_the_item_representaion_with_FakeComplexModelWithEnumerable_is_serialized
+        : ItemRepresentationAsDataContext
     {
-        static readonly CollectionJsonSerializerSettings settings = new CollectionJsonSerializerSettings
-        {
-            ConversionMethod = ConversionMethod.Data
-        };
 
-        
-        static readonly ItemRepresentation<FakeComplexModelWithEnumerable> representation =
+        static readonly ItemRepresentation<FakeComplexModelWithEnumerable> Representation =
             new ItemRepresentation<FakeComplexModelWithEnumerable>(new FakeComplexModelWithEnumerable
-                                        {
-                                            SomeString = "some string",
-                                            FakeSimpleModel = new FakeSimpleModel(),
-                                            FakeSimpleModelCollection
-                                                = new Collection<FakeSimpleModel>
-                                                        {
-                                                            new FakeSimpleModel
-                                                                {
-                                                                    SomeString
-                                                                        =  "string property in collection"
-                                                                }
-                                                        },
-                                            FakeSimpleModelList
-                                                =
-                                                new List<FakeSimpleModel>
-                                                    {
-                                                        new FakeSimpleModel
-                                                            {
-                                                                SomeString
-                                                                    = "string property in list"
-                                                            }
-                                                    },
-                                            FakeSimpleModels
-                                                =
-                                                new List<FakeSimpleModel>
-                                                    {
-                                                        new FakeSimpleModel
-                                                            {
-                                                                SomeString
-                                                                    = "string property in enumerable"
-                                                            }
-                                                    }
-                                        }, settings);
+                                                                   {
+                                                                       SomeString = "some string",
+                                                                       FakeSimpleModel = new FakeSimpleModel(),
+                                                                       FakeSimpleModelCollection
+                                                                           = new Collection<FakeSimpleModel>
+                                                                             {
+                                                                                 new FakeSimpleModel
+                                                                                 {
+                                                                                     SomeString
+                                                                                         =
+                                                                                         "string property in collection"
+                                                                                 }
+                                                                             },
+                                                                       FakeSimpleModelList
+                                                                           =
+                                                                           new List<FakeSimpleModel>
+                                                                           {
+                                                                               new FakeSimpleModel
+                                                                               {
+                                                                                   SomeString
+                                                                                       = "string property in list"
+                                                                               }
+                                                                           },
+                                                                       FakeSimpleModels
+                                                                           =
+                                                                           new List<FakeSimpleModel>
+                                                                           {
+                                                                               new FakeSimpleModel
+                                                                               {
+                                                                                   SomeString
+                                                                                       = "string property in enumerable"
+                                                                               }
+                                                                           }
+                                                                   }, UrlInfoCollection, SettingsData);
         static string subject;
 
-        Because of = () => subject = CollectionJsonWriter.Serialize(representation);
+        Because of = () => subject = CollectionJsonWriter.Serialize(Representation);
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
-            () => subject.ShouldEndWith(""+//"{\"href\":\"http://www.example.org/fakecomplexmodelwithenumerable/[identifier]\"" +
+            () => subject.ShouldEndWith("" +//"{\"href\":\"http://www.example.org/fakecomplexmodelwithenumerable/[identifier]\"" +
 
             ",\"data\":[" +
                 "{\"name\":\"someString\",\"value\":\"some string\",\"prompt\":\"Some String\"}" +
@@ -151,16 +179,14 @@ namespace CollectionJsonExtended.Core._Specs
 
 
     [Subject(typeof(ItemRepresentation<>), "Serialize Type ItemRepresentation.Data representation")]
-    public class When_the_item_representaion_with_the_FakeComplexModel_is_serialized
+    internal class When_the_item_representaion_with_the_FakeComplexModel_is_serialized
+        : ItemRepresentationAsDataContext
     {
-        private static readonly CollectionJsonSerializerSettings Settings =
-            new CollectionJsonSerializerSettings
-            {
-                ConversionMethod = ConversionMethod.Data
-            };
-
-        static readonly ItemRepresentation<FakeComplexModel> Representation = 
-            new ItemRepresentation<FakeComplexModel>(new FakeComplexModel{}, Settings);
+       
+        static readonly ItemRepresentation<FakeComplexModel> Representation =
+            new ItemRepresentation<FakeComplexModel>(new FakeComplexModel { },
+                UrlInfoCollection,
+                SettingsData);
 
         static string _subject;
 
@@ -177,27 +203,22 @@ namespace CollectionJsonExtended.Core._Specs
 
 
     [Subject(typeof(ItemRepresentation<>), "Serialize Type ItemRepresentation.Data representation")]
-    public class When_the_item_representaion_with_FakeSimpleModelWithValueTypes_is_serialized
+    internal class When_the_item_representaion_with_FakeSimpleModelWithValueTypes_is_serialized
+        : ItemRepresentationAsDataContext
     {
-        private static readonly CollectionJsonSerializerSettings Settings =
-            new CollectionJsonSerializerSettings
-            {
-                ConversionMethod = ConversionMethod.Data
-            };
-
         
         static readonly ItemRepresentation<FakeSimpleModelWithValueTypes> Representation =
             new ItemRepresentation<FakeSimpleModelWithValueTypes>(new FakeSimpleModelWithValueTypes
                                                                       {
                                                                           Int = 123,
                                                                           Char = Convert.ToChar("s")
-                                                                      }, Settings);
+                                                                      }, UrlInfoCollection, SettingsData);
         static string _subject;
 
         Because of = () => _subject = CollectionJsonWriter.Serialize(Representation);
 
         It should_the_properties_of_the_type_be_reflected_in_json =
-            () => _subject.ShouldEndWith(""+//"{\"href\":\"http://www.example.org/fakesimplemodelwithvaluetypes/[identifier]\"" +
+            () => _subject.ShouldEndWith("" +//"{\"href\":\"http://www.example.org/fakesimplemodelwithvaluetypes/[identifier]\"" +
 
             ",\"data\":[" +
                 "{\"name\":\"int\",\"value\":123,\"prompt\":\"Type a number:\"}" +
@@ -213,21 +234,16 @@ namespace CollectionJsonExtended.Core._Specs
 
 
     [Subject(typeof(ItemRepresentation<>), "Serialize Type ItemRepresentation.Data representation")]
-    public class When_the_item_representaion_with_FakeSimpleModelWithNullableValueTypes_is_serialized
+    internal class When_the_item_representaion_with_FakeSimpleModelWithNullableValueTypes_is_serialized
+        : ItemRepresentationAsDataContext
     {
-        private static readonly CollectionJsonSerializerSettings Settings =
-            new CollectionJsonSerializerSettings
-            {
-                ConversionMethod = ConversionMethod.Data
-            };
 
-        
         static readonly ItemRepresentation<FakeSimpleModelWithNullableValueTypes> Representation =
             new ItemRepresentation<FakeSimpleModelWithNullableValueTypes>(new FakeSimpleModelWithNullableValueTypes
             {
                 Int = 123,
                 Decimal = 5
-            }, Settings);
+            }, UrlInfoCollection, SettingsData);
 
         static string _subject;
 
@@ -251,31 +267,33 @@ namespace CollectionJsonExtended.Core._Specs
 
 
     [Subject(typeof(ItemRepresentation<>), "Serialize Type ItemRepresentation.Entity representation")]
-    public class When_the_item_representaion_as_entity_with_FakeSimpleModelWithEnumAndStringEnum_is_serialized
+    internal class When_the_item_representaion_as_entity_with_FakeSimpleModelWithEnumAndStringEnum_is_serialized
+        : ItemRepresentationAsEntityContext
     {
-        static readonly CollectionJsonSerializerSettings Settings =
+
+        private static readonly CollectionJsonSerializerSettings TestThisSettings =
             new CollectionJsonSerializerSettings
             {
                 ConversionMethod = ConversionMethod.Entity
             };
-        
+
         static readonly ItemRepresentation<FakeSimpleModelWithEnumAndStringEnum> Representation =
             new ItemRepresentation<FakeSimpleModelWithEnumAndStringEnum>(new FakeSimpleModelWithEnumAndStringEnum
             {
                 SomeString = "some string",
                 FakeEnum = FakeEnum.Val2,
                 FakeStringEnum = FakeStringEnum.StringVal1,
-            }, Settings);
+            }, UrlInfoCollection, SettingsEntity);
 
         static string _subject;
 
-        Because of = () => _subject = CollectionJsonWriter.Serialize(Representation);
+        Because of = () => _subject = CollectionJsonWriter.Serialize(Representation, TestThisSettings);
 
         It should_the_json_property_for_someString_be__some_string__ =
             () => _subject.ShouldContain("{\"someString\":\"some string\"");
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
-            () => _subject.ShouldEndWith(""+//"{\"href\":\"http://www.example.org/fakesimplemodelwithenumandstringenum/[identifier]\"" +
+            () => _subject.ShouldEndWith("" +//"{\"href\":\"http://www.example.org/fakesimplemodelwithenumandstringenum/[identifier]\"" +
 
             ",\"entity\":{" +
                 "\"someString\":\"some string\"" +

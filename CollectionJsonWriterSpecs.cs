@@ -218,7 +218,7 @@ namespace CollectionJsonExtended.Core._Specs
         It should_foo2 = () => subjectUrlInfoCollection.Count().ShouldEqual(3);
 
         It should_GetVirtualPath_extension_method_return__some_path__ =
-            () => subject.Collection.ParseVirtualPath<FakeIntIdEntity>().ShouldEqual("some/path");
+            () => subject.Collection.Href.ShouldEqual("some/path");
 
         It should_the_error_property_be_null =
             () => subject.Error.ShouldBeNull();

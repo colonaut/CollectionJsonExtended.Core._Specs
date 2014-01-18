@@ -1,4 +1,5 @@
-﻿using Machine.Specifications;
+﻿using CollectionJsonExtended.Core.Extensions;
+using Machine.Specifications;
 
 namespace CollectionJsonExtended.Core._Specs
 {
@@ -8,7 +9,7 @@ namespace CollectionJsonExtended.Core._Specs
     {
         static string subject;
 
-        private Because of = () => subject = CollectionJsonWriter<FakeComplexModelWithListOfStrings>.Serialize(new LinkRepresentation());
+        private Because of = () => subject = new LinkRepresentation().Serialize();
 
         private It should_the_json_representation_have_rel__rss__href_null_render__href__ =
             () =>

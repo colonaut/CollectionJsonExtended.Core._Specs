@@ -168,10 +168,10 @@ namespace CollectionJsonExtended.Core._Specs
             = () => _subject.Collection.ShouldBeNull();
         
         It should_the_the_collection_representation_not_be_serialized
-            = () => CollectionJsonWriter.Serialize(_subject, serializerSettings).ShouldNotContain("{\"collection");
+            = () => _subject.Serialize().ShouldNotContain("{\"collection");
 
         It should_the_the_error_representation_be_serialized
-            = () => CollectionJsonWriter.Serialize(_subject, serializerSettings).ShouldEqual(
+            = () => _subject.Serialize().ShouldEqual(
                       "{\"error\":{" +
                         "\"title\":\"InternalServerError\"," +
                         "\"code\":500" +
@@ -230,7 +230,7 @@ namespace CollectionJsonExtended.Core._Specs
             () => subject.Collection.Items.Count.ShouldEqual(1);
 
         It should_the_the_error_representation_not_be_serialized =
-            () => CollectionJsonWriter.Serialize(subject, serializerSettings).ShouldNotContain("{\"error");
+            () => subject.Serialize().ShouldNotContain("{\"error");
 
         It should_the_Collection_Href_property_be__some_path__ =
             () => subject.Collection.Href.ShouldEqual("some/path");

@@ -1,4 +1,5 @@
-﻿using Machine.Specifications;
+﻿using CollectionJsonExtended.Core.Extensions;
+using Machine.Specifications;
 
 namespace CollectionJsonExtended.Core._Specs
 {
@@ -13,7 +14,7 @@ namespace CollectionJsonExtended.Core._Specs
         readonly static WriteTemplateRepresentation<FakeSimpleModelWithEnumAndStringEnum> Representation = new WriteTemplateRepresentation<FakeSimpleModelWithEnumAndStringEnum>(Settings);
         static string _subject;
 
-        Because of = () => _subject = CollectionJsonWriter.Serialize(Representation);
+        Because of = () => _subject = Representation.Serialize();
 
         It should_the_json_options_property_for_fakeEnum_be__array_0_1__ =
             () => _subject.ShouldContain("\"options\":[0,1],");
@@ -40,7 +41,7 @@ namespace CollectionJsonExtended.Core._Specs
         readonly static WriteTemplateRepresentation<FakeComplexModelWithArrays> representation = new WriteTemplateRepresentation<FakeComplexModelWithArrays>(settings);
         static string subject;
 
-        Because of = () => subject = CollectionJsonWriter.Serialize(representation);
+        Because of = () => subject = representation.Serialize();
 
         //It should_the_json_options_property_for_someStrings_be_have_array__array_empty__ =
         //    () => subject.ShouldContain("\"name\":\"someStrings\",\"values\":[],");
@@ -66,7 +67,7 @@ namespace CollectionJsonExtended.Core._Specs
         readonly static WriteTemplateRepresentation<FakeComplexModelWithEnumerable> representation = new WriteTemplateRepresentation<FakeComplexModelWithEnumerable>(settings);
         static string subject;
 
-        Because of = () => subject = CollectionJsonWriter.Serialize(representation);
+        Because of = () => subject = representation.Serialize();
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
             () => subject.ShouldEqual("{\"conversionMethod\":\"Data\",\"data\":[" +
@@ -97,7 +98,7 @@ namespace CollectionJsonExtended.Core._Specs
         readonly static WriteTemplateRepresentation<FakeComplexModel> representation = new WriteTemplateRepresentation<FakeComplexModel>(settings);
         static string subject;
 
-        Because of = () => subject = CollectionJsonWriter.Serialize(representation);
+        Because of = () => subject = representation.Serialize();
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
             () => subject.ShouldEqual("{\"conversionMethod\":\"Data\",\"data\":[" +
@@ -118,7 +119,7 @@ namespace CollectionJsonExtended.Core._Specs
         readonly static WriteTemplateRepresentation<FakeSimpleModelWithValueTypes> representation = new WriteTemplateRepresentation<FakeSimpleModelWithValueTypes>(settings);
         static string subject;
 
-        Because of = () => subject = CollectionJsonWriter.Serialize(representation);
+        Because of = () => subject = representation.Serialize();
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
             () => subject.ShouldEqual("{\"conversionMethod\":\"Data\",\"data\":[" +
@@ -144,7 +145,7 @@ namespace CollectionJsonExtended.Core._Specs
         readonly static WriteTemplateRepresentation<FakeSimpleModelWithNullableValueTypes> representation = new WriteTemplateRepresentation<FakeSimpleModelWithNullableValueTypes>(settings);
         static string subject;
 
-        Because of = () => subject = CollectionJsonWriter.Serialize(representation);
+        Because of = () => subject = representation.Serialize();
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
             () => subject.ShouldEqual("{\"conversionMethod\":\"Data\",\"data\":[" +
@@ -170,7 +171,7 @@ namespace CollectionJsonExtended.Core._Specs
         readonly static WriteTemplateRepresentation<FakeComplexModelWithAbstract> Representation = new WriteTemplateRepresentation<FakeComplexModelWithAbstract>(settings);
         static string _subject;
 
-        Because of = () => _subject = CollectionJsonWriter.Serialize(Representation);
+        Because of = () => _subject = Representation.Serialize();
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
             () => _subject.ShouldEqual("{\"conversionMethod\":\"Entity\",\"data\":[" +
@@ -205,7 +206,7 @@ namespace CollectionJsonExtended.Core._Specs
             new WriteTemplateRepresentation<FakeComplexModelWithEnumerableOfAbstract>(Settings);
         static string _subject;
 
-        Because of = () => _subject = CollectionJsonWriter<FakeComplexModelWithEnumerableOfAbstract>.Serialize(Representation);
+        Because of = () => _subject = Representation.Serialize();
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
             () => _subject.ShouldEqual("{\"conversionMethod\":\"Entity\",\"data\":[" +
@@ -242,7 +243,7 @@ namespace CollectionJsonExtended.Core._Specs
             = new WriteTemplateRepresentation<FakeSimpleModelWithEnumAndStringEnum>(settings);
         static string subject;
 
-        Because of = () => subject = CollectionJsonWriter.Serialize(representation);
+        Because of = () => subject = representation.Serialize();
 
         It should_the_json_options_property_for_fakeEnum_be__array_0_1__ =
             () => subject.ShouldContain("\"options\":[0,1],");
@@ -274,7 +275,7 @@ namespace CollectionJsonExtended.Core._Specs
             new WriteTemplateRepresentation<FakeComplexModelWithEnumerableOfAbstract>(Settings);
         static string _subject;
 
-        Because of = () => _subject = CollectionJsonWriter.Serialize(Representation);
+        Because of = () => _subject = Representation.Serialize();
 
         //It should_the_json_property_for_indentifier_be__TheStringIdentifier1__ =
         //    () => _subject.ShouldContain("\"entity\":{\"indentifier\":\"TheStringIdentifier1\",\"identifier\":true");

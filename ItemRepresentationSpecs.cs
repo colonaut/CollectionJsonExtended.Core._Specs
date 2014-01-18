@@ -9,9 +9,7 @@ namespace CollectionJsonExtended.Core._Specs
 {
     internal abstract class ItemRepresentationContext
     {
-        protected static IEnumerable<UrlInfoBase> UrlInfoCollection;
-
-        protected static CollectionJsonSerializerSettings SettingsData =
+        protected readonly static CollectionJsonSerializerSettings SettingsData =
             new CollectionJsonSerializerSettings
             {
                 ConversionMethod = ConversionMethod.Data
@@ -26,9 +24,6 @@ namespace CollectionJsonExtended.Core._Specs
         Establish context =
             () =>
             {
-                
-                UrlInfoCollection = new List<UrlInfoBase>();
-                
             };
     }
 
@@ -38,15 +33,17 @@ namespace CollectionJsonExtended.Core._Specs
         : ItemRepresentationContext
     {
         static readonly ItemRepresentation<FakeSimpleModelWithEnumAndStringEnum> Representation =
-            new ItemRepresentation<FakeSimpleModelWithEnumAndStringEnum>(new FakeSimpleModelWithEnumAndStringEnum
-                                                                             {
-                                                                                 SomeString = "some string",
-                                                                                 FakeEnum = FakeEnum.Val2,
-                                                                                 FakeStringEnum = FakeStringEnum.StringVal1,
-                                                                             }, UrlInfoCollection, SettingsData);
+            new ItemRepresentation<FakeSimpleModelWithEnumAndStringEnum>(
+                new FakeSimpleModelWithEnumAndStringEnum
+                {
+                    SomeString = "some string",
+                    FakeEnum = FakeEnum.Val2,
+                    FakeStringEnum = FakeStringEnum.StringVal1,
+                }, SettingsData);
+
         static string _subject;
 
-        private Because of = () => _subject = Representation.Serialize();
+        Because of = () => _subject = Representation.Serialize();
 
         It should_the_json_property_for_someString_be__some_string__ =
             () => _subject.ShouldContain("{\"name\":\"someString\",\"value\":\"some string\"");
@@ -79,7 +76,7 @@ namespace CollectionJsonExtended.Core._Specs
                                                                                SomeString = "some string in array model"
                                                                            }
                                                                        }
-                                                               }, UrlInfoCollection, SettingsData);
+                                                               }, SettingsData);
         static string _subject;
 
         Because of = () => _subject = Representation.Serialize();
@@ -140,7 +137,7 @@ namespace CollectionJsonExtended.Core._Specs
                                                                                        = "string property in enumerable"
                                                                                }
                                                                            }
-                                                                   }, UrlInfoCollection, SettingsData);
+                                                                   }, SettingsData);
         static string subject;
 
         Because of = () => subject = Representation.Serialize();
@@ -172,8 +169,7 @@ namespace CollectionJsonExtended.Core._Specs
     {
        
         static readonly ItemRepresentation<FakeComplexModel> Representation =
-            new ItemRepresentation<FakeComplexModel>(new FakeComplexModel { },
-                UrlInfoCollection,
+            new ItemRepresentation<FakeComplexModel>(new FakeComplexModel{ },
                 SettingsData);
 
         static string _subject;
@@ -200,7 +196,7 @@ namespace CollectionJsonExtended.Core._Specs
                                                                       {
                                                                           Int = 123,
                                                                           Char = Convert.ToChar("s")
-                                                                      }, UrlInfoCollection, SettingsData);
+                                                                      }, SettingsData);
         static string _subject;
 
         Because of = () => _subject = Representation.Serialize();
@@ -231,7 +227,7 @@ namespace CollectionJsonExtended.Core._Specs
             {
                 Int = 123,
                 Decimal = 5
-            }, UrlInfoCollection, SettingsData);
+            }, SettingsData);
 
         static string _subject;
 
@@ -264,7 +260,7 @@ namespace CollectionJsonExtended.Core._Specs
                 SomeString = "some string",
                 FakeEnum = FakeEnum.Val2,
                 FakeStringEnum = FakeStringEnum.StringVal1,
-            }, UrlInfoCollection, SettingsEntity);
+            }, SettingsEntity);
 
         static string _subject;
 

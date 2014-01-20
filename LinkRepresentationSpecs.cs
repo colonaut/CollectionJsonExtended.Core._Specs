@@ -1,24 +1,74 @@
-﻿using CollectionJsonExtended.Core.Extensions;
+﻿using System.Linq;
+using System.Reflection;
+using CollectionJsonExtended.Core.Extensions;
 using Machine.Specifications;
 
 namespace CollectionJsonExtended.Core._Specs
 {
-    
-    [Subject(typeof(CollectionJsonWriter<>), "Serialize link representaion")]
-    public class When_the_link_representaion_is_serialized
+
+    internal abstract class LinkRepresentationContext
     {
-        static string subject;
+        protected static readonly CollectionJsonSerializerSettings SerializerSettings =
+            new CollectionJsonSerializerSettings();
+    }
 
-        private Because of = () => subject = new LinkRepresentation().Serialize();
+    [Subject(typeof(LinkRepresentation<>), "Serialize link representaion")]
+    internal class When_the_link_representaion_is_serialized_for_base
+        : LinkRepresentationContext
+    {
+        static readonly UrlInfoBase UrlInfo =
+            new FakeUrlInfo(typeof (FakeIntIdEntity))
+            {
+                Kind = Is.LinkForBase,
+                Relation = "relates to whatever",
+                Render = "image",
+                VirtualPath = "some/path"
+            };
 
-        private It should_the_json_representation_have_rel__rss__href_null_render__href__ =
+        static string _subject;
+
+        Because of = () => _subject =
+            new LinkRepresentation<FakeIntIdEntity>(UrlInfo, SerializerSettings).Serialize();
+
+        It should_the_json_representation_have___ =
             () =>
-           subject.ShouldEqual(
+           _subject.ShouldEqual(
                        "{" +
-                            "\"rel\":null," +
-                            "\"href\":null," +
-                            "\"render\":\"href\"" +
+                            "\"rel\":\"relates to whatever\"" +
+                            ",\"href\":\"some/path\"" +
+                            ",\"render\":\"image\"" +
                        "}");
     }
 
+    [Subject(typeof(LinkRepresentation<>), "Serialize link representaion")]
+    internal class When_the_link_representaion_is_serialized_for_item
+        : LinkRepresentationContext
+    {
+        static readonly UrlInfoBase UrlInfo =
+            new FakeUrlInfo(typeof(FakeIntIdEntity))
+            {
+                Kind = Is.LinkForBase,
+                Relation = "relates to whatever",
+                Render = "image",
+                VirtualPath = "some/path/{id}",
+                PrimaryKeyTemplate = "{id}",
+                PrimaryKeyProperty = typeof(FakeIntIdEntity).GetProperty("Id")
+            };
+
+        private static readonly FakeIntIdEntity _entity
+            = new FakeIntIdEntity {Id = 586};
+
+        static string _subject;
+
+        Because of = () => _subject =
+            new LinkRepresentation<FakeIntIdEntity>(_entity, UrlInfo, SerializerSettings).Serialize();
+
+        It should_the_json_representation_be_serialized_for_the_item =
+            () => _subject.ShouldEqual(
+                "{" +
+                    "\"rel\":\"relates to whatever\"" +
+                    ",\"href\":\"some/path/586\"" +
+                    ",\"render\":\"image\"" +
+                "}");
+    }
 }

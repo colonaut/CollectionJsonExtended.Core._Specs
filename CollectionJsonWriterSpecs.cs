@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Reflection;
-using CollectionJsonExtended.Core.Attributes;
 using CollectionJsonExtended.Core.Extensions;
 using Machine.Fakes;
 using Machine.Specifications;
@@ -12,122 +9,6 @@ using Machine.Specifications;
 
 namespace CollectionJsonExtended.Core._Specs
 {
-    public class FakeController
-    {
-        public string FakeMethodWithIntIdParam(int fakeIntId)
-        {
-            return "returns FakeMethodWithIntIdParam";
-        }
-
-        public string FakeMethodWithStringIdParam(string fakeStringId)
-        {
-            return "returns FakeMethodWithStringIdParam";
-        }
-
-        public string FakeMethod()
-        {
-            return "returns FakeMethod";
-        }
-    }
-
-
-    public class FakeUrlInfo : UrlInfoBase
-    {
-        static readonly List<FakeUrlInfo> TestCollectionData;
-
-        static FakeUrlInfo()
-        {
-            var fakeControllerType = new FakeController().GetType();
-
-            TestCollectionData =
-                new List<FakeUrlInfo>
-                {
-                    new FakeUrlInfo(typeof (FakeIntIdEntity))
-                    {
-                        Kind = Is.Base,
-                        //Relation = "fakeMethod",
-                        VirtualPath = "some/path"
-                    },
-
-                    new FakeUrlInfo(typeof (FakeIntIdEntity))
-                    {
-                        PrimaryKeyProperty = typeof (FakeIntIdEntity).GetProperty("Id", BindingFlags.Instance
-                                   | BindingFlags.IgnoreCase
-                                   | BindingFlags.Public),
-                        PrimaryKeyTemplate = "{fakeId}",
-                        Kind = Is.Item,
-                        //Relation = "fakeMethodWithParam",
-                        VirtualPath = "some/path/{fakeId}"
-                    },
-
-                    //this one is double and makes everthing crash! better test for this in extension
-                    //    new FakeUrlInfo(typeof (FakeIntIdEntity))
-                    //    {
-                    //        PrimaryKeyProperty = typeof (FakeIntIdEntity).GetProperty("Id", BindingFlags.Instance
-                    //              | BindingFlags.IgnoreCase
-                    //              | BindingFlags.Public),
-                    //        PrimaryKeyTemplate = "{fakeId}",
-                    //        Kind = Is.Item,
-                    //        //Relation = "fakeMethodWithParam",
-                    //        VirtualPath = "some/path/{fakeId}"
-                    //    },
-
-                    new FakeUrlInfo(typeof (FakeIntIdEntity))
-                    {
-                        Kind = Is.Query,
-                        Relation = "fakeMethod",
-                        VirtualPath = "some/path"
-                    },
-
-                    new FakeUrlInfo(typeof (FakeStringIdEntity))
-                    {
-                        PrimaryKeyProperty = typeof (FakeStringIdEntity).GetProperty("Id", BindingFlags.Instance
-                                   | BindingFlags.IgnoreCase
-                                   | BindingFlags.Public),
-                        PrimaryKeyTemplate = "{fakeStringId}",
-                        Kind = Is.Item,
-                        //Relation = "fakeMethod",
-                        VirtualPath = "some/path/{fakeStringId}"
-                    },
-
-                    new FakeUrlInfo(typeof (FakeAttributePrimaryKeyEntity))
-                    {
-                        Kind = Is.Base,
-                        //Relation = "fakeMethodWithParam",
-                        VirtualPath = "some/path"
-                    },
-
-                    new FakeUrlInfo(typeof (FakeAttributePrimaryKeyEntity))
-                    {
-                        PrimaryKeyProperty = typeof (FakeAttributePrimaryKeyEntity).GetProperties()
-                            .SingleOrDefault(p =>
-                            {
-                                var a = p.GetCustomAttribute<CollectionJsonPropertyAttribute>();
-                                return a != null && a.IsPrimaryKey;
-                            }),
-                        PrimaryKeyTemplate = "{fakeStringId}",
-                        Kind = Is.Item,
-                        //Relation = "fakeMethodWithParam",
-                        VirtualPath = "some/path/{fakeStringId}"
-                    }
-                };
-        }
-
-
-        public FakeUrlInfo(Type entityType)
-            : base(entityType)
-        {
-        }
-
-       
-        public static void AddFakeData(UrlInfoCollection urlInfoCollectionInstance)
-        {
-            foreach (var fakeUrlInfo in TestCollectionData.ToList())
-                urlInfoCollectionInstance.Add(fakeUrlInfo);
-        }
-    }
-    
-    
     public abstract class CollectionJsonWriterContext
         : WithFakes
     {
@@ -227,7 +108,7 @@ namespace CollectionJsonExtended.Core._Specs
             () => subject.Collection.ShouldBeOfType<CollectionRepresentation<FakeIntIdEntity>>();
 
         It should_the_colletion_property_be_a_collection_of_items_containing_1_item =
-            () => subject.Collection.Items.Count.ShouldEqual(1);
+            () => subject.Collection.Items.Count().ShouldEqual(1);
 
         It should_the_the_error_representation_not_be_serialized =
             () => subject.Serialize().ShouldNotContain("{\"error");
@@ -236,10 +117,10 @@ namespace CollectionJsonExtended.Core._Specs
             () => subject.Collection.Href.ShouldEqual("some/path");
 
         It should_the_Collection_Item_Property_contain_1_item =
-            () => subject.Collection.Items.Count.ShouldEqual(1);
+            () => subject.Collection.Items.Count().ShouldEqual(1);
 
         It should_the_Collection_Item_0_Href_property_be___some_path_7773___ =
-            () => subject.Collection.Items[0].Href.ShouldEqual("some/path/7773");
+            () => subject.Collection.Items.ToList()[0].Href.ShouldEqual("some/path/7773");
     }
 
 
@@ -283,7 +164,7 @@ namespace CollectionJsonExtended.Core._Specs
         It should_foo2 = () => subjectUrlInfoCollection.Count().ShouldEqual(2);
 
         It the_Collection_Items_0_Href_Property_be__some_path_ThePrimaryKey__ =
-            () => subject.Collection.Items[0].Href.ShouldEqual("some/path/ThePrimaryKey");
+            () => subject.Collection.Items.ToList()[0].Href.ShouldEqual("some/path/ThePrimaryKey");
 
     }
 

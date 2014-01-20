@@ -4,14 +4,14 @@ using Machine.Specifications;
 namespace CollectionJsonExtended.Core._Specs
 {
 
-    [Subject(typeof(WriteTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
+    [Subject(typeof(WriterTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
     public class When_the_template_representaion_is_serialized_with_the_FakeSimpleModelWithEnumAndStringEnum
     {
         readonly static CollectionJsonSerializerSettings Settings = new CollectionJsonSerializerSettings
         {
             ConversionMethod = ConversionMethod.Data
         };
-        readonly static WriteTemplateRepresentation<FakeSimpleModelWithEnumAndStringEnum> Representation = new WriteTemplateRepresentation<FakeSimpleModelWithEnumAndStringEnum>(Settings);
+        readonly static WriterTemplateRepresentation<FakeSimpleModelWithEnumAndStringEnum> Representation = new WriterTemplateRepresentation<FakeSimpleModelWithEnumAndStringEnum>(Settings);
         static string _subject;
 
         Because of = () => _subject = Representation.Serialize();
@@ -31,14 +31,14 @@ namespace CollectionJsonExtended.Core._Specs
     }
 
 
-    [Subject(typeof(WriteTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
+    [Subject(typeof(WriterTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
     public class When_the_template_representaion_entitydata_type_is_serialized_with_the_FakeComplexModelWithArrays
     {
         readonly static CollectionJsonSerializerSettings settings = new CollectionJsonSerializerSettings
         {
             ConversionMethod = ConversionMethod.Data
         };
-        readonly static WriteTemplateRepresentation<FakeComplexModelWithArrays> representation = new WriteTemplateRepresentation<FakeComplexModelWithArrays>(settings);
+        readonly static WriterTemplateRepresentation<FakeComplexModelWithArrays> representation = new WriterTemplateRepresentation<FakeComplexModelWithArrays>(settings);
         static string subject;
 
         Because of = () => subject = representation.Serialize();
@@ -57,14 +57,14 @@ namespace CollectionJsonExtended.Core._Specs
     }
 
 
-    [Subject(typeof(WriteTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
+    [Subject(typeof(WriterTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
     public class When_the_template_representaion_entitydata_type_is_serialized_with_the_FakeComplexModelWithEnumerable
     {
         readonly static CollectionJsonSerializerSettings settings = new CollectionJsonSerializerSettings
         {
             ConversionMethod = ConversionMethod.Data
         };
-        readonly static WriteTemplateRepresentation<FakeComplexModelWithEnumerable> representation = new WriteTemplateRepresentation<FakeComplexModelWithEnumerable>(settings);
+        readonly static WriterTemplateRepresentation<FakeComplexModelWithEnumerable> representation = new WriterTemplateRepresentation<FakeComplexModelWithEnumerable>(settings);
         static string subject;
 
         Because of = () => subject = representation.Serialize();
@@ -88,14 +88,14 @@ namespace CollectionJsonExtended.Core._Specs
     }
 
 
-    [Subject(typeof(WriteTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
+    [Subject(typeof(WriterTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
     public class When_the_template_representaion_entitydata_type_is_serialized_with_the_FakeComplexModel
     {
         readonly static CollectionJsonSerializerSettings settings = new CollectionJsonSerializerSettings
         {
             ConversionMethod = ConversionMethod.Data
         };
-        readonly static WriteTemplateRepresentation<FakeComplexModel> representation = new WriteTemplateRepresentation<FakeComplexModel>(settings);
+        readonly static WriterTemplateRepresentation<FakeComplexModel> representation = new WriterTemplateRepresentation<FakeComplexModel>(settings);
         static string subject;
 
         Because of = () => subject = representation.Serialize();
@@ -109,14 +109,14 @@ namespace CollectionJsonExtended.Core._Specs
     }
 
 
-    [Subject(typeof(WriteTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
+    [Subject(typeof(WriterTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
     public class When_the_template_representaion_entitydata_type_is_serialized_with_FakeSimpleModelWithValueTypes
     {
         readonly static CollectionJsonSerializerSettings settings = new CollectionJsonSerializerSettings
         {
             ConversionMethod = ConversionMethod.Data
         };
-        readonly static WriteTemplateRepresentation<FakeSimpleModelWithValueTypes> representation = new WriteTemplateRepresentation<FakeSimpleModelWithValueTypes>(settings);
+        readonly static WriterTemplateRepresentation<FakeSimpleModelWithValueTypes> representation = new WriterTemplateRepresentation<FakeSimpleModelWithValueTypes>(settings);
         static string subject;
 
         Because of = () => subject = representation.Serialize();
@@ -135,14 +135,14 @@ namespace CollectionJsonExtended.Core._Specs
     }
 
 
-    [Subject(typeof(WriteTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
+    [Subject(typeof(WriterTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
     public class When_the_template_representaion_entitydata_type_is_serialized_with_FakeSimpleModelWithNullableValueTypes
     {
         readonly static CollectionJsonSerializerSettings settings = new CollectionJsonSerializerSettings
         {
             ConversionMethod = ConversionMethod.Data
         };
-        readonly static WriteTemplateRepresentation<FakeSimpleModelWithNullableValueTypes> representation = new WriteTemplateRepresentation<FakeSimpleModelWithNullableValueTypes>(settings);
+        readonly static WriterTemplateRepresentation<FakeSimpleModelWithNullableValueTypes> representation = new WriterTemplateRepresentation<FakeSimpleModelWithNullableValueTypes>(settings);
         static string subject;
 
         Because of = () => subject = representation.Serialize();
@@ -161,14 +161,14 @@ namespace CollectionJsonExtended.Core._Specs
     }
 
 
-    [Subject(typeof(WriteTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
+    [Subject(typeof(WriterTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
     public class When_the_template_representaion_entitydata_type_is_serialized_with_FakeComplexModelWithAbstract
     {
         readonly static CollectionJsonSerializerSettings settings = new CollectionJsonSerializerSettings
             {
                 ConversionMethod = ConversionMethod.Entity
             };
-        readonly static WriteTemplateRepresentation<FakeComplexModelWithAbstract> Representation = new WriteTemplateRepresentation<FakeComplexModelWithAbstract>(settings);
+        readonly static WriterTemplateRepresentation<FakeComplexModelWithAbstract> Representation = new WriterTemplateRepresentation<FakeComplexModelWithAbstract>(settings);
         static string _subject;
 
         Because of = () => _subject = Representation.Serialize();
@@ -194,7 +194,7 @@ namespace CollectionJsonExtended.Core._Specs
     }
 
 
-    [Subject(typeof(WriteTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
+    [Subject(typeof(WriterTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
     public class When_the_template_representaion_entityType_of_data_property_is_serialized_with_FakeComplexModelWithEnumerableOfAbstract
     {
         private static readonly CollectionJsonSerializerSettings Settings =
@@ -202,8 +202,8 @@ namespace CollectionJsonExtended.Core._Specs
             {
                 ConversionMethod = ConversionMethod.Entity
             };
-        readonly static WriteTemplateRepresentation<FakeComplexModelWithEnumerableOfAbstract> Representation =
-            new WriteTemplateRepresentation<FakeComplexModelWithEnumerableOfAbstract>(Settings);
+        readonly static WriterTemplateRepresentation<FakeComplexModelWithEnumerableOfAbstract> Representation =
+            new WriterTemplateRepresentation<FakeComplexModelWithEnumerableOfAbstract>(Settings);
         static string _subject;
 
         Because of = () => _subject = Representation.Serialize();
@@ -232,15 +232,15 @@ namespace CollectionJsonExtended.Core._Specs
 
 
 
-    [Subject(typeof(WriteTemplateRepresentation<>), "Serialize TemplateRepresentation with ConversionMethod.Entity")]
+    [Subject(typeof(WriterTemplateRepresentation<>), "Serialize TemplateRepresentation with ConversionMethod.Entity")]
     public class When_the_template_representaion_serialized_with_the_FakeSimpleModelWithEnumAndStringEnum_as_entity
     {
         readonly static CollectionJsonSerializerSettings settings = new CollectionJsonSerializerSettings
         {
             ConversionMethod = ConversionMethod.Entity
         };
-        readonly static WriteTemplateRepresentation<FakeSimpleModelWithEnumAndStringEnum> representation
-            = new WriteTemplateRepresentation<FakeSimpleModelWithEnumAndStringEnum>(settings);
+        readonly static WriterTemplateRepresentation<FakeSimpleModelWithEnumAndStringEnum> representation
+            = new WriterTemplateRepresentation<FakeSimpleModelWithEnumAndStringEnum>(settings);
         static string subject;
 
         Because of = () => subject = representation.Serialize();
@@ -263,7 +263,7 @@ namespace CollectionJsonExtended.Core._Specs
     }
 
 
-    [Subject(typeof(WriteTemplateRepresentation<>), "Serialize TemplateRepresentation with ConversionMethod.Entity")]
+    [Subject(typeof(WriterTemplateRepresentation<>), "Serialize TemplateRepresentation with ConversionMethod.Entity")]
     public class When_the_template_representaion_serialized_with_the_FakeIdentifierAttriuteEntitys_as_entity
     {
         private static readonly CollectionJsonSerializerSettings Settings =
@@ -271,8 +271,8 @@ namespace CollectionJsonExtended.Core._Specs
             {
                 ConversionMethod = ConversionMethod.Entity
             };
-        readonly static WriteTemplateRepresentation<FakeComplexModelWithEnumerableOfAbstract> Representation =
-            new WriteTemplateRepresentation<FakeComplexModelWithEnumerableOfAbstract>(Settings);
+        readonly static WriterTemplateRepresentation<FakeComplexModelWithEnumerableOfAbstract> Representation =
+            new WriterTemplateRepresentation<FakeComplexModelWithEnumerableOfAbstract>(Settings);
         static string _subject;
 
         Because of = () => _subject = Representation.Serialize();

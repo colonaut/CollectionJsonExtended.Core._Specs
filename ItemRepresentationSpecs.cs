@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using CollectionJsonExtended.Core.Extensions;
 using Machine.Specifications;
-using Rhino.Mocks.Constraints;
 
 namespace CollectionJsonExtended.Core._Specs
 {

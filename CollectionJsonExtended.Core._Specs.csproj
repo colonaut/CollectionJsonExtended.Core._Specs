@@ -76,8 +76,10 @@
   <ItemGroup>
     <Compile Include="CollectionJsonReaderSpecs.cs" />
     <Compile Include="CollectionJsonWriterSpecs.cs" />
+    <Compile Include="FakeController.cs" />
     <Compile Include="FakeEntities.cs" />
     <Compile Include="FakeModels.cs" />
+    <Compile Include="FakeUrlInfo.cs" />
     <Compile Include="ItemRepresentationSpecs.cs" />
     <Compile Include="LinkRepresentationSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

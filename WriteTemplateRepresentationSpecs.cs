@@ -24,7 +24,7 @@ namespace CollectionJsonExtended.Core._Specs
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
             () => _subject.ShouldEqual("{\"conversionMethod\":\"Data\",\"data\":[" +
-                "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}," +
+                "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"string\"}," +
                 "{\"name\":\"fakeEnum\",\"value\":0,\"options\":[0,1],\"prompt\":\"Fake Enum\",\"type\":\"FakeEnum\"}," +
                 "{\"name\":\"fakeStringEnum\",\"value\":\"StringVal2\",\"options\":[\"StringVal2\",\"StringVal1\"],\"prompt\":\"Fake String Enum\",\"type\":\"FakeStringEnum\"}" +
             "]}");
@@ -48,10 +48,10 @@ namespace CollectionJsonExtended.Core._Specs
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
             () => subject.ShouldEqual("{\"conversionMethod\":\"Data\",\"data\":[" +
-                "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
-                ",{\"name\":\"someStrings\",\"values\":[],\"prompt\":\"Some Strings\",\"type\":\"String[]\"}" +
+                "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"string\"}" +
+                ",{\"name\":\"someStrings\",\"values\":[],\"prompt\":\"Some Strings\",\"type\":\"string[]\"}" +
                 ",{\"name\":\"fakeSimpleModels\",\"objects\":[],\"data\":[" +
-                        "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
+                        "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"string\"}" +
                     "],\"prompt\":\"Fake Simple Models\",\"type\":\"FakeSimpleModel[]\"}" +
                 "]}");
     }
@@ -71,18 +71,18 @@ namespace CollectionJsonExtended.Core._Specs
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
             () => subject.ShouldEqual("{\"conversionMethod\":\"Data\",\"data\":[" +
-                "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
+                "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"string\"}" +
                 ",{\"name\":\"fakeSimpleModel\",\"object\":null,\"data\":[" +
-                        "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
+                        "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"string\"}" +
                     "],\"prompt\":\"Fake Simple Model\",\"type\":\"FakeSimpleModel\"}" +
                 ",{\"name\":\"fakeSimpleModelCollection\",\"objects\":[],\"data\":[" +
-                        "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
+                        "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"string\"}" +
                     "],\"prompt\":\"Fake Simple Model Collection\",\"type\":\"Collection`1[FakeSimpleModel]\"}" +
                 ",{\"name\":\"fakeSimpleModelList\",\"objects\":[],\"data\":[" +
-                        "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
+                        "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"string\"}" +
                     "],\"prompt\":\"Fake Simple Model List\",\"type\":\"IList`1[FakeSimpleModel]\"}" +
                 ",{\"name\":\"fakeSimpleModels\",\"objects\":[],\"data\":[" +
-                        "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
+                        "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"string\"}" +
                     "],\"prompt\":\"Fake Simple Models\",\"type\":\"IEnumerable`1[FakeSimpleModel]\"}" +
                 "]}");
     }
@@ -103,7 +103,7 @@ namespace CollectionJsonExtended.Core._Specs
         It should_the_peoperties_of_the_type_be_reflected_in_json =
             () => subject.ShouldEqual("{\"conversionMethod\":\"Data\",\"data\":[" +
                 "{\"name\":\"fakeSimpleModel\",\"object\":null,\"data\":[" +
-                        "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
+                        "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"string\"}" +
                     "],\"prompt\":\"Fake Simple Model\",\"type\":\"FakeSimpleModel\"}" +
                 "]}");
     }
@@ -123,14 +123,14 @@ namespace CollectionJsonExtended.Core._Specs
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
             () => subject.ShouldEqual("{\"conversionMethod\":\"Data\",\"data\":[" +
-                "{\"name\":\"int\",\"value\":0,\"prompt\":\"Type a number:\",\"type\":\"Int32\"}" +
-                ",{\"name\":\"long\",\"value\":0,\"prompt\":\"Long\",\"type\":\"Int64\"}" +
-                ",{\"name\":\"float\",\"value\":0.0,\"prompt\":\"Float\",\"type\":\"Single\"}" +
-                ",{\"name\":\"bool\",\"value\":false,\"prompt\":\"Bool\",\"type\":\"Boolean\"}" +
-                ",{\"name\":\"char\",\"value\":\"\\u0000\",\"prompt\":\"Char\",\"type\":\"Char\"}" +
-                ",{\"name\":\"decimal\",\"value\":0.0,\"prompt\":\"Decimal\",\"type\":\"Decimal\"}" +
-                ",{\"name\":\"short\",\"value\":0,\"prompt\":\"Short\",\"type\":\"Int16\"}" +
-                ",{\"name\":\"double\",\"value\":0.0,\"prompt\":\"Double\",\"type\":\"Double\"}" +
+                "{\"name\":\"int\",\"value\":0,\"prompt\":\"Type a number:\",\"type\":\"int\"}" +
+                ",{\"name\":\"long\",\"value\":0,\"prompt\":\"Long\",\"type\":\"long\"}" +
+                ",{\"name\":\"float\",\"value\":0.0,\"prompt\":\"Float\",\"type\":\"float\"}" +
+                ",{\"name\":\"bool\",\"value\":false,\"prompt\":\"Bool\",\"type\":\"bool\"}" +
+                ",{\"name\":\"char\",\"value\":\"\\u0000\",\"prompt\":\"Char\",\"type\":\"char\"}" +
+                ",{\"name\":\"decimal\",\"value\":0.0,\"prompt\":\"Decimal\",\"type\":\"decimal\"}" +
+                ",{\"name\":\"short\",\"value\":0,\"prompt\":\"Short\",\"type\":\"short\"}" +
+                ",{\"name\":\"double\",\"value\":0.0,\"prompt\":\"Double\",\"type\":\"double\"}" +
             "]}");
     }
 
@@ -142,21 +142,21 @@ namespace CollectionJsonExtended.Core._Specs
         {
             ConversionMethod = ConversionMethod.Data
         };
-        readonly static WriterTemplateRepresentation<FakeSimpleModelWithNullableValueTypes> representation = new WriterTemplateRepresentation<FakeSimpleModelWithNullableValueTypes>(settings);
+        readonly static WriterTemplateRepresentation<FakeSimpleModelWithNullableValueTypes> Representation = new WriterTemplateRepresentation<FakeSimpleModelWithNullableValueTypes>(settings);
         static string subject;
 
-        Because of = () => subject = representation.Serialize();
+        Because of = () => subject = Representation.Serialize();
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
             () => subject.ShouldEqual("{\"conversionMethod\":\"Data\",\"data\":[" +
-                "{\"name\":\"int\",\"value\":null,\"prompt\":\"Int\",\"type\":\"Nullable`1\"}" +
-                ",{\"name\":\"long\",\"value\":null,\"prompt\":\"Long\",\"type\":\"Nullable`1\"}" +
-                ",{\"name\":\"float\",\"value\":null,\"prompt\":\"Float\",\"type\":\"Nullable`1\"}" +
-                ",{\"name\":\"bool\",\"value\":null,\"prompt\":\"Bool\",\"type\":\"Nullable`1\"}" +
-                ",{\"name\":\"char\",\"value\":null,\"prompt\":\"Char\",\"type\":\"Nullable`1\"}" +
-                ",{\"name\":\"decimal\",\"value\":null,\"prompt\":\"Decimal\",\"type\":\"Nullable`1\"}" +
-                ",{\"name\":\"short\",\"value\":null,\"prompt\":\"Short\",\"type\":\"Nullable`1\"}" +
-                ",{\"name\":\"double\",\"value\":null,\"prompt\":\"Double\",\"type\":\"Nullable`1\"}" +
+                "{\"name\":\"int\",\"value\":null,\"prompt\":\"Int\",\"type\":\"int?\"}" +
+                ",{\"name\":\"long\",\"value\":null,\"prompt\":\"Long\",\"type\":\"long?\"}" +
+                ",{\"name\":\"float\",\"value\":null,\"prompt\":\"Float\",\"type\":\"float?\"}" +
+                ",{\"name\":\"bool\",\"value\":null,\"prompt\":\"Bool\",\"type\":\"bool?\"}" +
+                ",{\"name\":\"char\",\"value\":null,\"prompt\":\"Char\",\"type\":\"char?\"}" +
+                ",{\"name\":\"decimal\",\"value\":null,\"prompt\":\"Decimal\",\"type\":\"decimal?\"}" +
+                ",{\"name\":\"short\",\"value\":null,\"prompt\":\"Short\",\"type\":\"short?\"}" +
+                ",{\"name\":\"double\",\"value\":null,\"prompt\":\"Double\",\"type\":\"double?\"}" +
             "]}");
     }
 
@@ -175,18 +175,18 @@ namespace CollectionJsonExtended.Core._Specs
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
             () => _subject.ShouldEqual("{\"conversionMethod\":\"Entity\",\"data\":[" +
-                "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
+                "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"string\"}" +
                 ",{\"name\":\"fakeAbstractModel\",\"object\":null,\"select\":[" +
                     "{\"type\":\"FakeDerivedComplexModel\",\"data\":[" +
-                        "{\"name\":\"abstractString\",\"value\":\"\",\"prompt\":\"Abstract String\",\"type\":\"String\"}" +
-                        ",{\"name\":\"derivedAdditionalString\",\"value\":\"\",\"prompt\":\"Derived Additional String\",\"type\":\"String\"}" +
+                        "{\"name\":\"abstractString\",\"value\":\"\",\"prompt\":\"Abstract String\",\"type\":\"string\"}" +
+                        ",{\"name\":\"derivedAdditionalString\",\"value\":\"\",\"prompt\":\"Derived Additional String\",\"type\":\"string\"}" +
                         ",{\"name\":\"fakeSimpleModel\",\"object\":null,\"data\":[" +
-                            "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
+                            "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"string\"}" +
                         "],\"prompt\":\"Fake Simple Model\",\"type\":\"FakeSimpleModel\"}" +
                     "]}" +
                     ",{\"type\":\"FakeDerivedModel\",\"data\":[" +
-                        "{\"name\":\"abstractString\",\"value\":\"\",\"prompt\":\"Abstract String\",\"type\":\"String\"}" +
-                        ",{\"name\":\"derivedAdditionalString\",\"value\":\"\",\"prompt\":\"Derived Additional String\",\"type\":\"String\"}" +
+                        "{\"name\":\"abstractString\",\"value\":\"\",\"prompt\":\"Abstract String\",\"type\":\"string\"}" +
+                        ",{\"name\":\"derivedAdditionalString\",\"value\":\"\",\"prompt\":\"Derived Additional String\",\"type\":\"string\"}" +
                     "]}" +
                 "],\"prompt\":\"Fake Abstract Model\",\"type\":\"FakeAbstractModel\"}" +
                
@@ -210,18 +210,18 @@ namespace CollectionJsonExtended.Core._Specs
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
             () => _subject.ShouldEqual("{\"conversionMethod\":\"Entity\",\"data\":[" +
-                "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
+                "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"string\"}" +
                 ",{\"name\":\"fakeAbstractModels\",\"objects\":[],\"select\":[" +
                     "{\"type\":\"FakeDerivedComplexModel\",\"data\":[" +
-                        "{\"name\":\"abstractString\",\"value\":\"\",\"prompt\":\"Abstract String\",\"type\":\"String\"}" +
-                        ",{\"name\":\"derivedAdditionalString\",\"value\":\"\",\"prompt\":\"Derived Additional String\",\"type\":\"String\"}" +
+                        "{\"name\":\"abstractString\",\"value\":\"\",\"prompt\":\"Abstract String\",\"type\":\"string\"}" +
+                        ",{\"name\":\"derivedAdditionalString\",\"value\":\"\",\"prompt\":\"Derived Additional String\",\"type\":\"string\"}" +
                         ",{\"name\":\"fakeSimpleModel\",\"object\":null,\"data\":[" +
-                            "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}" +
+                            "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"string\"}" +
                         "],\"prompt\":\"Fake Simple Model\",\"type\":\"FakeSimpleModel\"}" +
                     "]}" +
                     ",{\"type\":\"FakeDerivedModel\",\"data\":[" +
-                        "{\"name\":\"abstractString\",\"value\":\"\",\"prompt\":\"Abstract String\",\"type\":\"String\"}" +
-                        ",{\"name\":\"derivedAdditionalString\",\"value\":\"\",\"prompt\":\"Derived Additional String\",\"type\":\"String\"}" +
+                        "{\"name\":\"abstractString\",\"value\":\"\",\"prompt\":\"Abstract String\",\"type\":\"string\"}" +
+                        ",{\"name\":\"derivedAdditionalString\",\"value\":\"\",\"prompt\":\"Derived Additional String\",\"type\":\"string\"}" +
                     "]}" +
                 "],\"prompt\":\"Fake Abstract Models\",\"type\":\"IEnumerable`1[FakeAbstractModel]\"}" +
 
@@ -256,7 +256,7 @@ namespace CollectionJsonExtended.Core._Specs
         
         It should_the_peoperties_of_the_type_be_reflected_in_json =
             () => subject.ShouldEqual("{\"conversionMethod\":\"Entity\",\"data\":[" +
-                "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"String\"}," +
+                "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"string\"}," +
                 "{\"name\":\"fakeEnum\",\"value\":0,\"options\":[0,1],\"prompt\":\"Fake Enum\",\"type\":\"FakeEnum\"}," +
                 "{\"name\":\"fakeStringEnum\",\"value\":\"StringVal2\",\"options\":[\"StringVal2\",\"StringVal1\"],\"prompt\":\"Fake String Enum\",\"type\":\"FakeStringEnum\"}" +
             "]}");

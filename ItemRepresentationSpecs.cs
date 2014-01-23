@@ -277,4 +277,46 @@ namespace CollectionJsonExtended.Core._Specs
             "}}");
     }
 
+
+    [Subject(typeof(ItemRepresentation<>), "Serialize Type ItemRepresentation.Entity representation")]
+    internal class When_the_item_representaion_as_entity_with_FakeEntityWithPropertyAccessRestrictions_is_serialized
+    {
+        static readonly CollectionJsonSerializerSettings Settings =
+            new CollectionJsonSerializerSettings
+            {
+                ConversionMethod = ConversionMethod.Entity
+            };
+
+        private static readonly ItemRepresentation<FakeEntityWithPropertyAccessRestrictions> Representation =
+            new ItemRepresentation<FakeEntityWithPropertyAccessRestrictions>(
+                new FakeEntityWithPropertyAccessRestrictions(123)
+                {
+                    PublicInt = 42,
+                    FakeEntityWithPrivateSetterString =
+                        new FakeEntityWithPrivateSetterString()
+                        {
+                            PublicString = "some public string"
+                        }
+                },
+                Settings);
+
+        static string _subject;
+
+        Because of = () => _subject = Representation.Serialize();
+
+        It should_the_peoperties_of_the_type_be_reflected_in_json =
+           () => _subject.ShouldEqual("{\"href\":null" +
+
+            ",\"entity\":{" +
+                "\"privateSetterInt\":10" +
+                ",\"readonlyInt\":123" +
+                ",\"readonlyIntGetterOnly\":30" +
+                ",\"publicInt\":42" +
+                ",\"fakeEntityWithPrivateSetterString\":{" +
+                    "\"privateSetterString\":\"some private string\"" +
+                    ",\"publicString\":\"some public string\"" +
+                "}" +
+            "}}");
+    }
+
 }

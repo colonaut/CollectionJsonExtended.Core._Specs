@@ -79,14 +79,14 @@ namespace CollectionJsonExtended.Core._Specs
 
                 subjectUrlInfoCollection =
                     SingletonFactory<UrlInfoCollection>.Instance
-                        .Find(typeof (FakeIntIdEntity));
+                        .Find(typeof (FakeEntityIntId));
             };
 
-        static CollectionJsonWriter<FakeIntIdEntity> subject;
+        static CollectionJsonWriter<FakeEntityIntId> subject;
         Because of =
             () =>
             {
-                subject = new CollectionJsonWriter<FakeIntIdEntity>(new FakeIntIdEntity
+                subject = new CollectionJsonWriter<FakeEntityIntId>(new FakeEntityIntId
                                                                     {
                                                                         Id = 7773,
                                                                         SomeString = "some string a"
@@ -105,7 +105,7 @@ namespace CollectionJsonExtended.Core._Specs
             () => subject.Error.ShouldBeNull();
 
         It should_the_collection_property_be_of_type__CollectionRepresentation__ =
-            () => subject.Collection.ShouldBeOfType<CollectionRepresentation<FakeIntIdEntity>>();
+            () => subject.Collection.ShouldBeOfType<CollectionRepresentation<FakeEntityIntId>>();
 
         It should_the_colletion_property_be_a_collection_of_items_containing_1_item =
             () => subject.Collection.Items.Count().ShouldEqual(1);
@@ -125,7 +125,7 @@ namespace CollectionJsonExtended.Core._Specs
 
 
     [Subject(typeof(CollectionJsonWriter<>),
-        "CollectionJsonWriter for a collection of FakeAttributePrimaryKeyEntity with 1 item")]
+        "CollectionJsonWriter for a collection of FakeEntityWithAttributePrimaryKey with 1 item")]
     public class When_the_CollectionJsonWriter_is_envoked_with_1_FakeAttributePrimaryKeyEntity_with_ConversionMethod_Data
         : CollectionJsonWriterContext
     {
@@ -142,16 +142,16 @@ namespace CollectionJsonExtended.Core._Specs
 
                 subjectUrlInfoCollection =
                      SingletonFactory<UrlInfoCollection>.Instance
-                     .Find(typeof(FakeAttributePrimaryKeyEntity));
+                     .Find(typeof(FakeEntityWithAttributePrimaryKey));
             };
 
-        static CollectionJsonWriter<FakeAttributePrimaryKeyEntity> subject;
+        static CollectionJsonWriter<FakeEntityWithAttributePrimaryKey> subject;
         Because of =
             () =>
             {
                 subject =
-                    new CollectionJsonWriter<FakeAttributePrimaryKeyEntity>(
-                        new FakeAttributePrimaryKeyEntity
+                    new CollectionJsonWriter<FakeEntityWithAttributePrimaryKey>(
+                        new FakeEntityWithAttributePrimaryKey
                         {
                             PrimaryKey = "ThePrimaryKey",
                             SomeString = "some string"

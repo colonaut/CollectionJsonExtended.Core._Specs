@@ -17,16 +17,16 @@ namespace CollectionJsonExtended.Core._Specs
             TestCollectionData =
                 new List<FakeUrlInfo>
                 {
-                    new FakeUrlInfo(typeof (FakeIntIdEntity))
+                    new FakeUrlInfo(typeof (FakeEntityIntId))
                     {
                         Kind = Is.Base,
                         //Relation = "fakeMethod",
                         VirtualPath = "some/path"
                     },
 
-                    new FakeUrlInfo(typeof (FakeIntIdEntity))
+                    new FakeUrlInfo(typeof (FakeEntityIntId))
                     {
-                        PrimaryKeyProperty = typeof (FakeIntIdEntity).GetProperty("Id", BindingFlags.Instance
+                        PrimaryKeyProperty = typeof (FakeEntityIntId).GetProperty("Id", BindingFlags.Instance
                                                                                         | BindingFlags.IgnoreCase
                                                                                         | BindingFlags.Public),
                         PrimaryKeyTemplate = "{fakeId}",
@@ -36,9 +36,9 @@ namespace CollectionJsonExtended.Core._Specs
                     },
 
                     //this one is double and makes everthing crash! better test for this in extension
-                    //    new FakeUrlInfo(typeof (FakeIntIdEntity))
+                    //    new FakeUrlInfo(typeof (FakeEntityIntId))
                     //    {
-                    //        PrimaryKeyProperty = typeof (FakeIntIdEntity).GetProperty("Id", BindingFlags.Instance
+                    //        PrimaryKeyProperty = typeof (FakeEntityIntId).GetProperty("Id", BindingFlags.Instance
                     //              | BindingFlags.IgnoreCase
                     //              | BindingFlags.Public),
                     //        PrimaryKeyTemplate = "{fakeId}",
@@ -47,16 +47,16 @@ namespace CollectionJsonExtended.Core._Specs
                     //        VirtualPath = "some/path/{fakeId}"
                     //    },
 
-                    new FakeUrlInfo(typeof (FakeIntIdEntity))
+                    new FakeUrlInfo(typeof (FakeEntityIntId))
                     {
                         Kind = Is.Query,
                         Relation = "fakeMethod",
                         VirtualPath = "some/path"
                     },
 
-                    new FakeUrlInfo(typeof (FakeStringIdEntity))
+                    new FakeUrlInfo(typeof (FakeEntityWithStringId))
                     {
-                        PrimaryKeyProperty = typeof (FakeStringIdEntity).GetProperty("Id", BindingFlags.Instance
+                        PrimaryKeyProperty = typeof (FakeEntityWithStringId).GetProperty("Id", BindingFlags.Instance
                                                                                            | BindingFlags.IgnoreCase
                                                                                            | BindingFlags.Public),
                         PrimaryKeyTemplate = "{fakeStringId}",
@@ -65,16 +65,16 @@ namespace CollectionJsonExtended.Core._Specs
                         VirtualPath = "some/path/{fakeStringId}"
                     },
 
-                    new FakeUrlInfo(typeof (FakeAttributePrimaryKeyEntity))
+                    new FakeUrlInfo(typeof (FakeEntityWithAttributePrimaryKey))
                     {
                         Kind = Is.Base,
                         //Relation = "fakeMethodWithParam",
                         VirtualPath = "some/path"
                     },
 
-                    new FakeUrlInfo(typeof (FakeAttributePrimaryKeyEntity))
+                    new FakeUrlInfo(typeof (FakeEntityWithAttributePrimaryKey))
                     {
-                        PrimaryKeyProperty = typeof (FakeAttributePrimaryKeyEntity).GetProperties()
+                        PrimaryKeyProperty = typeof (FakeEntityWithAttributePrimaryKey).GetProperties()
                             .SingleOrDefault(p =>
                                              {
                                                  var a = CustomAttributeExtensions.GetCustomAttribute<CollectionJsonPropertyAttribute>((MemberInfo) p);

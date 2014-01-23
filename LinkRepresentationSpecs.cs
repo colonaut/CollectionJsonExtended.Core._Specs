@@ -17,7 +17,7 @@ namespace CollectionJsonExtended.Core._Specs
         : LinkRepresentationContext
     {
         static readonly UrlInfoBase UrlInfo =
-            new FakeUrlInfo(typeof (FakeIntIdEntity))
+            new FakeUrlInfo(typeof (FakeEntityIntId))
             {
                 Kind = Is.LinkForBase,
                 Relation = "relates to whatever",
@@ -28,7 +28,7 @@ namespace CollectionJsonExtended.Core._Specs
         static string _subject;
 
         Because of = () => _subject =
-            new LinkRepresentation<FakeIntIdEntity>(UrlInfo, SerializerSettings).Serialize();
+            new LinkRepresentation<FakeEntityIntId>(UrlInfo, SerializerSettings).Serialize();
 
         It should_the_json_representation_have___ =
             () =>
@@ -45,23 +45,23 @@ namespace CollectionJsonExtended.Core._Specs
         : LinkRepresentationContext
     {
         static readonly UrlInfoBase UrlInfo =
-            new FakeUrlInfo(typeof(FakeIntIdEntity))
+            new FakeUrlInfo(typeof(FakeEntityIntId))
             {
                 Kind = Is.LinkForBase,
                 Relation = "relates to whatever",
                 Render = "image",
                 VirtualPath = "some/path/{id}",
                 PrimaryKeyTemplate = "{id}",
-                PrimaryKeyProperty = typeof(FakeIntIdEntity).GetProperty("Id")
+                PrimaryKeyProperty = typeof(FakeEntityIntId).GetProperty("Id")
             };
 
-        private static readonly FakeIntIdEntity _entity
-            = new FakeIntIdEntity {Id = 586};
+        private static readonly FakeEntityIntId _entity
+            = new FakeEntityIntId {Id = 586};
 
         static string _subject;
 
         Because of = () => _subject =
-            new LinkRepresentation<FakeIntIdEntity>(_entity, UrlInfo, SerializerSettings).Serialize();
+            new LinkRepresentation<FakeEntityIntId>(_entity, UrlInfo, SerializerSettings).Serialize();
 
         It should_the_json_representation_be_serialized_for_the_item =
             () => _subject.ShouldEqual(

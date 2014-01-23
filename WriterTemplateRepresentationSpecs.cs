@@ -77,13 +77,13 @@ namespace CollectionJsonExtended.Core._Specs
                     "],\"prompt\":\"Fake Simple Model\",\"type\":\"FakeSimpleModel\"}" +
                 ",{\"name\":\"fakeSimpleModelCollection\",\"objects\":[],\"data\":[" +
                         "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"string\"}" +
-                    "],\"prompt\":\"Fake Simple Model Collection\",\"type\":\"Collection`1[FakeSimpleModel]\"}" +
+                    "],\"prompt\":\"Fake Simple Model Collection\",\"type\":\"FakeSimpleModel[]\"}" +
                 ",{\"name\":\"fakeSimpleModelList\",\"objects\":[],\"data\":[" +
                         "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"string\"}" +
-                    "],\"prompt\":\"Fake Simple Model List\",\"type\":\"IList`1[FakeSimpleModel]\"}" +
+                    "],\"prompt\":\"Fake Simple Model List\",\"type\":\"FakeSimpleModel[]\"}" +
                 ",{\"name\":\"fakeSimpleModels\",\"objects\":[],\"data\":[" +
                         "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"string\"}" +
-                    "],\"prompt\":\"Fake Simple Models\",\"type\":\"IEnumerable`1[FakeSimpleModel]\"}" +
+                    "],\"prompt\":\"Fake Simple Models\",\"type\":\"FakeSimpleModel[]\"}" +
                 "]}");
     }
 
@@ -223,7 +223,7 @@ namespace CollectionJsonExtended.Core._Specs
                         "{\"name\":\"abstractString\",\"value\":\"\",\"prompt\":\"Abstract String\",\"type\":\"string\"}" +
                         ",{\"name\":\"derivedAdditionalString\",\"value\":\"\",\"prompt\":\"Derived Additional String\",\"type\":\"string\"}" +
                     "]}" +
-                "],\"prompt\":\"Fake Abstract Models\",\"type\":\"IEnumerable`1[FakeAbstractModel]\"}" +
+                "],\"prompt\":\"Fake Abstract Models\",\"type\":\"FakeAbstractModel[]\"}" +
 
             "]}");
     }

@@ -19,7 +19,7 @@ namespace CollectionJsonExtended.Core._Specs
         static readonly UrlInfoBase UrlInfo =
             new FakeUrlInfo(typeof (FakeEntityIntId))
             {
-                Kind = Is.LinkForBase,
+                Kind = Is.BaseLink,
                 Relation = "relates to whatever",
                 Render = "image",
                 VirtualPath = "some/path"
@@ -47,7 +47,7 @@ namespace CollectionJsonExtended.Core._Specs
         static readonly UrlInfoBase UrlInfo =
             new FakeUrlInfo(typeof(FakeEntityIntId))
             {
-                Kind = Is.LinkForBase,
+                Kind = Is.BaseLink,
                 Relation = "relates to whatever",
                 Render = "image",
                 VirtualPath = "some/path/{id}",

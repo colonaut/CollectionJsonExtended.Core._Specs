@@ -65,7 +65,7 @@ namespace CollectionJsonExtended.Core._Specs
             new ItemRepresentation<FakeComplexModelWithArrays>(new FakeComplexModelWithArrays
                                                                {
                                                                    SomeString = "some string",
-                                                                   SomeStrings = new[] { "foo", "bar" },
+                                                                   SomeStrings = new[] { "inlineTemplate", "bar" },
                                                                    FakeSimpleModels =
                                                                        new FakeSimpleModel[]
                                                                        {
@@ -80,14 +80,14 @@ namespace CollectionJsonExtended.Core._Specs
         Because of = () => _subject = Representation.Serialize();
 
         It should_the_json_options_property_for_someStrings_be_have_array__array_empty__ =
-            () => _subject.ShouldContain("\"name\":\"someStrings\",\"values\":[\"foo\",\"bar\"],");
+            () => _subject.ShouldContain("\"name\":\"someStrings\",\"values\":[\"inlineTemplate\",\"bar\"],");
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
             () => _subject.ShouldEndWith("" +//"{\"href\":\"http://www.example.org/fakecomplexmodelwitharrays/[identifier]\"" +
 
                 ",\"data\":[" +
                 "{\"name\":\"someString\",\"value\":\"some string\",\"prompt\":\"Some String\"}" +
-                ",{\"name\":\"someStrings\",\"values\":[\"foo\",\"bar\"],\"prompt\":\"Some Strings\"}" +
+                ",{\"name\":\"someStrings\",\"values\":[\"inlineTemplate\",\"bar\"],\"prompt\":\"Some Strings\"}" +
                 ",{\"name\":\"fakeSimpleModels\",\"objects\":[{\"data\":[" +
                         "{\"name\":\"someString\",\"value\":\"some string in array model\",\"prompt\":\"Some String\"}" +
                     "]}],\"prompt\":\"Fake Simple Models\"}" +

@@ -155,6 +155,18 @@ namespace CollectionJsonExtended.Core._Specs
 
     }
 
+    public class FakeComplexModelWithCollectionJsonProperties
+    {
+        [CollectionJsonProperty(TemplateValueHandling = TemplateValueHandling.Ignore)]
+        public string SomeStringWithTemplateValueHandlingIgnore { get; set; }
+
+        [CollectionJsonProperty(ItemValueHandling = ItemValueHandling.Ignore)]
+        public string SomeStringWithItemValueHandlingIgnore { get; set; }
+
+        [CollectionJsonProperty(Prompt = "I am the prompt")]
+        public string SomeStringWithPrompt { get; set; }
+    }
+
     public struct FakeStruct
     {
         public decimal price;

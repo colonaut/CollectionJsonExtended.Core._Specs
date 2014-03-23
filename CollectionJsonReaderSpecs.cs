@@ -237,13 +237,16 @@ namespace CollectionJsonExtended.Core._Specs
 
         It should_the_subject_not_be_null = () => _subject.ShouldNotBeNull();
 
-        It should_the_subject_be_of_type = () => _subject.ShouldBeOfType(typeof(CollectionJsonReader<FakeComplexModelWithEnumerable>));
+        It should_the_subject_be_of_type =
+            () => _subject.ShouldBeOfType(typeof(CollectionJsonReader<FakeComplexModelWithEnumerable>));
 
         It should_the_property_fakeSimpleModelCollection_be_of_type__collection_of_fakeSimpleModel__ = () => _subject.Entity.FakeSimpleModelCollection.ShouldBeOfType<Collection<FakeSimpleModel>>();
 
-        It should_the_property_fakeSimpleModelCollection_have_1_entry = () => _subject.Entity.FakeSimpleModelCollection.Count.ShouldEqual(1);
+        It should_the_property_fakeSimpleModelCollection_have_1_entry =
+            () => _subject.Entity.FakeSimpleModelCollection.Count.ShouldEqual(1);
 
-        It should_the_property_fakeSimpleModelList_be_of_type__list_of_fakesimplemodel__ = () => _subject.Entity.FakeSimpleModelList.ShouldBeOfType<List<FakeSimpleModel>>();
+        It should_the_property_fakeSimpleModelList_be_of_type__list_of_fakesimplemodel__ =
+            () => _subject.Entity.FakeSimpleModelList.ShouldBeOfType<List<FakeSimpleModel>>();
 
         It should_the_property_fakeSimpleModelList_have_1_entry = () => _subject.Entity.FakeSimpleModelList.Count.ShouldEqual(1);
 

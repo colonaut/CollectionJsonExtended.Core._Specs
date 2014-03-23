@@ -7,11 +7,13 @@ namespace CollectionJsonExtended.Core._Specs
     [Subject(typeof(WriterTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
     internal class When_the_template_representaion_is_serialized_with_the_FakeSimpleModelWithEnumAndStringEnum
     {
-        readonly static CollectionJsonSerializerSettings Settings = new CollectionJsonSerializerSettings
-        {
-            ConversionMethod = ConversionMethod.Data
-        };
-        readonly static WriterTemplateRepresentation<FakeSimpleModelWithEnumAndStringEnum> Representation = new WriterTemplateRepresentation<FakeSimpleModelWithEnumAndStringEnum>(Settings);
+        private static readonly CollectionJsonSerializerSettings Settings =
+            new CollectionJsonSerializerSettings
+            {
+                ConversionMethod = ConversionMethod.Data
+            };
+        readonly static WriterTemplateRepresentation<FakeSimpleModelWithEnumAndStringEnum> Representation = 
+            new WriterTemplateRepresentation<FakeSimpleModelWithEnumAndStringEnum>(Settings);
         static string _subject;
 
         Because of = () => _subject = Representation.Serialize();
@@ -34,20 +36,21 @@ namespace CollectionJsonExtended.Core._Specs
     [Subject(typeof(WriterTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
     internal class When_the_template_representaion_entitydata_type_is_serialized_with_the_FakeComplexModelWithArrays
     {
-        readonly static CollectionJsonSerializerSettings settings = new CollectionJsonSerializerSettings
+        readonly static CollectionJsonSerializerSettings Settings =
+            new CollectionJsonSerializerSettings
         {
             ConversionMethod = ConversionMethod.Data
         };
-        readonly static WriterTemplateRepresentation<FakeComplexModelWithArrays> representation = new WriterTemplateRepresentation<FakeComplexModelWithArrays>(settings);
-        static string subject;
+        readonly static WriterTemplateRepresentation<FakeComplexModelWithArrays> representation = new WriterTemplateRepresentation<FakeComplexModelWithArrays>(Settings);
+        static string _subject;
 
-        Because of = () => subject = representation.Serialize();
+        Because of = () => _subject = representation.Serialize();
 
         //It should_the_json_options_property_for_someStrings_be_have_array__array_empty__ =
         //    () => subject.ShouldContain("\"name\":\"someStrings\",\"values\":[],");
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
-            () => subject.ShouldEqual("{\"conversionMethod\":\"Data\",\"data\":[" +
+            () => _subject.ShouldEqual("{\"conversionMethod\":\"Data\",\"data\":[" +
                 "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"string\"}" +
                 ",{\"name\":\"someStrings\",\"values\":[],\"prompt\":\"Some Strings\",\"type\":\"string[]\"}" +
                 ",{\"name\":\"fakeSimpleModels\",\"objects\":[],\"data\":[" +
@@ -60,17 +63,19 @@ namespace CollectionJsonExtended.Core._Specs
     [Subject(typeof(WriterTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
     internal class When_the_template_representaion_entitydata_type_is_serialized_with_the_FakeComplexModelWithEnumerable
     {
-        readonly static CollectionJsonSerializerSettings settings = new CollectionJsonSerializerSettings
+        readonly static CollectionJsonSerializerSettings Settings =
+            new CollectionJsonSerializerSettings
         {
             ConversionMethod = ConversionMethod.Data
         };
-        readonly static WriterTemplateRepresentation<FakeComplexModelWithEnumerable> representation = new WriterTemplateRepresentation<FakeComplexModelWithEnumerable>(settings);
-        static string subject;
+        readonly static WriterTemplateRepresentation<FakeComplexModelWithEnumerable> Representation =
+            new WriterTemplateRepresentation<FakeComplexModelWithEnumerable>(Settings);
+        static string _subject;
 
-        Because of = () => subject = representation.Serialize();
+        Because of = () => _subject = Representation.Serialize();
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
-            () => subject.ShouldEqual("{\"conversionMethod\":\"Data\",\"data\":[" +
+            () => _subject.ShouldEqual("{\"conversionMethod\":\"Data\",\"data\":[" +
                 "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"string\"}" +
                 ",{\"name\":\"fakeSimpleModel\",\"object\":null,\"data\":[" +
                         "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"string\"}" +
@@ -91,17 +96,19 @@ namespace CollectionJsonExtended.Core._Specs
     [Subject(typeof(WriterTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
     internal class When_the_template_representaion_entitydata_type_is_serialized_with_the_FakeComplexModel
     {
-        readonly static CollectionJsonSerializerSettings settings = new CollectionJsonSerializerSettings
-        {
-            ConversionMethod = ConversionMethod.Data
-        };
-        readonly static WriterTemplateRepresentation<FakeComplexModel> representation = new WriterTemplateRepresentation<FakeComplexModel>(settings);
-        static string subject;
+        static readonly CollectionJsonSerializerSettings Settings =
+            new CollectionJsonSerializerSettings
+            {
+                ConversionMethod = ConversionMethod.Data
+            };
+        readonly static WriterTemplateRepresentation<FakeComplexModel> Representation =
+            new WriterTemplateRepresentation<FakeComplexModel>(Settings);
+        static string _subject;
 
-        Because of = () => subject = representation.Serialize();
+        Because of = () => _subject = Representation.Serialize();
 
         It should_the_peoperties_of_the_type_be_reflected_in_json =
-            () => subject.ShouldEqual("{\"conversionMethod\":\"Data\",\"data\":[" +
+            () => _subject.ShouldEqual("{\"conversionMethod\":\"Data\",\"data\":[" +
                 "{\"name\":\"fakeSimpleModel\",\"object\":null,\"data\":[" +
                         "{\"name\":\"someString\",\"value\":\"\",\"prompt\":\"Some String\",\"type\":\"string\"}" +
                     "],\"prompt\":\"Fake Simple Model\",\"type\":\"FakeSimpleModel\"}" +
@@ -305,4 +312,29 @@ namespace CollectionJsonExtended.Core._Specs
                 "],\"prompt\":\"Fake Entity With Private Setter String\",\"type\":\"FakeEntityWithPrivateSetterString\"}" +
             "]}");
     }
+
+
+    [Subject(typeof(WriterTemplateRepresentation<>), "Serialize Type TemplateRepresentation.Data representation")]
+    internal class When_the_template_representaion_entitydata_type_is_serialized_with_FakeComplexModelWithCollectionJsonProperties
+    {
+        readonly static CollectionJsonSerializerSettings Settings =
+            new CollectionJsonSerializerSettings
+        {
+            ConversionMethod = ConversionMethod.Entity
+        };
+        readonly static WriterTemplateRepresentation<FakeComplexModelWithCollectionJsonProperties> Representation =
+            new WriterTemplateRepresentation<FakeComplexModelWithCollectionJsonProperties>(Settings);
+        static string _subject;
+
+        Because of = () => _subject = Representation.Serialize();
+
+        It should_the_peoperties_of_the_type_be_reflected_in_json =
+            () => _subject.ShouldEqual("{\"conversionMethod\":\"Entity\",\"data\":[" +
+                //"{\"name\":\"someStringWithTemplateValueHandlingIgnore\",\"value\":\"\",\"prompt\":\"Some String With Template Value Handling Ignore\",\"type\":\"string\"}" +
+                "{\"name\":\"someStringWithItemValueHandlingIgnore\",\"value\":\"\",\"prompt\":\"Some String With Item Value Handling Ignore\",\"type\":\"string\"}" +
+                ",{\"name\":\"someStringWithPrompt\",\"value\":\"\",\"prompt\":\"I am the prompt\",\"type\":\"string\"}" +
+            "]}");
+    }
+
 }
+

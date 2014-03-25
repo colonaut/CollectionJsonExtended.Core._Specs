@@ -83,7 +83,7 @@
     <Compile Include="ItemRepresentationSpecs.cs" />
     <Compile Include="LinkRepresentationSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WriterTemplateRepresentationSpecs.cs" />
+    <Compile Include="TemplateRepresentationSpecs.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CollectionJsonExtended.Core\CollectionJsonExtended.Core.csproj">

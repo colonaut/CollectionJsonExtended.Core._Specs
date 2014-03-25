@@ -14,7 +14,7 @@ namespace CollectionJsonExtended.Core._Specs
         static CollectionJsonReader<FakeSimpleModel> _subject;
 
         private Because of = () => _subject = CollectionJsonReader<FakeSimpleModel>.Deserialize(
-                "{\"template\":{}}");
+                "{}");
 
         It should_the_subject_not_be_null = () => _subject.ShouldNotBeNull();
 
@@ -28,20 +28,26 @@ namespace CollectionJsonExtended.Core._Specs
     {
         static CollectionJsonReader<FakeSimpleModel> _subject;
 
-        private Because of = () => _subject = CollectionJsonReader<FakeSimpleModel>.Deserialize(
-                "{\"template\":{\"data\":[{\"name\":\"someString\",\"value\":\"foo bar\"}]}}");
+        Because of = () => _subject = CollectionJsonReader<FakeSimpleModel>.Deserialize(
+                "{\"data\":[{\"name\":\"someString\",\"value\":\"foo bar\"}]}");
 
-        It should_the_subject_not_be_null = () => _subject.ShouldNotBeNull();
+        It should_the_subject_not_be_null =
+            () => _subject.ShouldNotBeNull();
 
-        It should_the_subject_be_of_type = () => _subject.ShouldBeOfType(typeof(CollectionJsonReader<FakeSimpleModel>));
+        It should_the_subject_be_of_type =
+            () => _subject.ShouldBeOfType(typeof(CollectionJsonReader<FakeSimpleModel>));
 
-        It should_the_subject_Template_data_property_contain_one_element_of_type = () => _subject.Data.Count().ShouldEqual(1);
+        It should_the_subject_Template_data_property_contain_one_element_of_type =
+            () => _subject.Data.Count().ShouldEqual(1);
 
-        It should_the_subject_Template_data_0_name_be__someString__ = () => _subject.Data.ToList()[0].Name.ShouldEqual("someString");
+        It should_the_subject_Template_data_0_name_be__someString__ =
+            () => _subject.Data.ToList()[0].Name.ShouldEqual("someString");
 
-        It should_the_subject_Template_entity_property_be_null = () => _subject.Entity.ShouldNotBeNull();
+        It should_the_subject_Template_entity_property_be_null =
+            () => _subject.Entity.ShouldNotBeNull();
 
-        It should_the_subject_Template_entity_property__someString__be__foo_bar__ = () => _subject.Entity.SomeString.ShouldEqual("foo bar");
+        It should_the_subject_Template_entity_property__someString__be__foo_bar__ =
+            () => _subject.Entity.SomeString.ShouldEqual("foo bar");
 
     }
 
@@ -51,11 +57,11 @@ namespace CollectionJsonExtended.Core._Specs
         static CollectionJsonReader<FakeSimpleModelWithEnumAndStringEnum> _subject;
 
         private Because of = () => _subject = CollectionJsonReader<FakeSimpleModelWithEnumAndStringEnum>.Deserialize(
-                "{\"template\":{\"data\":[" +
+                "{\"data\":[" +
                     "{\"name\":\"someString\",\"value\":\"foo bar\"}" +
                     ",{\"name\":\"fakeEnum\",\"value\":1}" +
                     ",{\"name\":\"fakeStringEnum\",\"value\":\"StringVal2\"}" +
-                "]}}");
+                "]}");
 
         It should_the_subject_not_be_null = () => _subject.ShouldNotBeNull();
 
@@ -76,11 +82,11 @@ namespace CollectionJsonExtended.Core._Specs
         static CollectionJsonReader<FakeComplexModelWithListOfStrings> _subject;
 
         private Because of = () => _subject = CollectionJsonReader<FakeComplexModelWithListOfStrings>.Deserialize(
-                "{\"template\":{\"data\":[" +
+                "{\"data\":[" +
                     "{\"name\":\"someString\",\"value\":\"foo bar\"}" +
             //",{\"name\":\"fakeEnum\",\"value\":1}" + another test for ignoring not found values. this should go somewhere else.
                     ",{\"name\":\"someStrings\",\"values\":[\"foo\",\"bar\"]}" +
-              "]}}");
+              "]}");
 
 
         It should_the_subject_not_be_null = () => _subject.ShouldNotBeNull();
@@ -100,7 +106,7 @@ namespace CollectionJsonExtended.Core._Specs
         static CollectionJsonReader<FakeSimpleModelWithValueTypes> _subject;
 
         private Because of = () => _subject = CollectionJsonReader<FakeSimpleModelWithValueTypes>.Deserialize(
-                "{\"template\":{\"data\":[" +
+                "{\"data\":[" +
                     "{\"name\":\"int\",\"value\":1}" +
                     ",{\"name\":\"long\",\"value\":1}" +
                     ",{\"name\":\"float\",\"value\":1}" +
@@ -109,7 +115,7 @@ namespace CollectionJsonExtended.Core._Specs
                     ",{\"name\":\"decimal\",\"value\":\"1.1999999\"}" +
                     ",{\"name\":\"short\",\"value\":-123}" +
                     ",{\"name\":\"double\",\"value\":-123}" +
-                "]}}");
+                "]}");
 
         It should_the_subject_not_be_null = () => _subject.ShouldNotBeNull();
 
@@ -134,7 +140,7 @@ namespace CollectionJsonExtended.Core._Specs
         static CollectionJsonReader<FakeSimpleModelWithValueTypes> _subject;
 
         private Because of = () => _subject = CollectionJsonReader<FakeSimpleModelWithValueTypes>.Deserialize(
-                "{\"template\":{\"data\":[" +
+                "{\"data\":[" +
                     "{\"name\":\"int\",\"value\":1}" +
                     ",{\"name\":\"long\",\"value\":1}" +
                     ",{\"name\":\"float\",\"value\":1}" +
@@ -143,7 +149,7 @@ namespace CollectionJsonExtended.Core._Specs
                     ",{\"name\":\"decimal\",\"value\":\"1.1999999\"}" +
                     ",{\"name\":\"short\",\"value\":-123}" +
                     ",{\"name\":\"double\",\"value\":-123}" +
-                "]}}");
+                "]}");
 
         It should_the_subject_not_be_null = () => _subject.ShouldNotBeNull();
 
@@ -168,11 +174,11 @@ namespace CollectionJsonExtended.Core._Specs
         static CollectionJsonReader<FakeComplexModel> _subject;
 
         private Because of = () => _subject = CollectionJsonReader<FakeComplexModel>.Deserialize(
-                "{\"template\":{\"data\":[" +
+                "{\"data\":[" +
                     "{\"name\":\"fakeSimpleModel\",\"object\":{\"data\":[" +
                         "{\"name\":\"someString\",\"value\":\"foo bar\"}" +
                     "]}}" +
-                "]}}");
+                "]}");
 
 
         It should_the_subject_not_be_null = () => _subject.ShouldNotBeNull();
@@ -191,13 +197,13 @@ namespace CollectionJsonExtended.Core._Specs
         static CollectionJsonReader<FakeComplexModelWithArrays> _subject;
 
         private Because of = () => _subject = CollectionJsonReader<FakeComplexModelWithArrays>.Deserialize(
-                "{\"template\":{\"data\":[" +
+                "{\"data\":[" +
                     "{\"name\":\"someString\",\"value\":\"foo bar\"}" +
                     ",{\"name\":\"someStrings\",\"values\":[\"foo\",\"bar\"]}" +
                     ",{\"name\":\"fakeSimpleModels\",\"objects\":[{\"data\":[" +
                         "{\"name\":\"someString\",\"value\":\"the second\"}" +
                     "]}]}" +
-                "]}}");
+                "]}");
 
 
         It should_the_subject_not_be_null = () => _subject.ShouldNotBeNull();
@@ -221,7 +227,7 @@ namespace CollectionJsonExtended.Core._Specs
         static CollectionJsonReader<FakeComplexModelWithEnumerable> _subject;
 
         private Because of = () => _subject = CollectionJsonReader<FakeComplexModelWithEnumerable>.Deserialize(
-                "{\"template\":{\"data\":[" +
+                "{\"data\":[" +
                     "{\"name\":\"someString\",\"value\":\"foo bar\"}" +
                     ",{\"name\":\"fakeSimpleModelCollection\",\"objects\":[{\"data\":[" +
                         "{\"name\":\"someString\",\"value\":\"the first\"}" +
@@ -232,7 +238,7 @@ namespace CollectionJsonExtended.Core._Specs
                     ",{\"name\":\"fakeSimpleModels\",\"objects\":[{\"data\":[" +
                         "{\"name\":\"someString\",\"value\":\"the first\"}" +
                     "]}]}" +
-                "]}}");
+                "]}");
 
 
         It should_the_subject_not_be_null = () => _subject.ShouldNotBeNull();
@@ -261,13 +267,13 @@ namespace CollectionJsonExtended.Core._Specs
 
         private Because of =
             () => _subject = CollectionJsonReader<FakeComplexModelWithAbstract>.Deserialize(
-            "{\"template\":{\"data\":[" +
+            "{\"data\":[" +
                 "{\"name\":\"someString\",\"value\":\"foo bar\"}" +
                 ",{\"name\":\"fakeAbstractModel\",\"object\":{\"data\":[" +
                     "{\"name\":\"abstractString\",\"value\":\"abstract foo\"}" +
                     ",{\"name\":\"derivedAdditionalString\",\"value\":\"abstract bar\"}" +
                 "],\"type\":\"FakeDerivedComplexModel\"}}" +
-            "]}}");
+            "]}");
 
 
         private It should_the_subject_not_be_null = () => _subject.ShouldNotBeNull();
@@ -296,7 +302,7 @@ namespace CollectionJsonExtended.Core._Specs
 
         private Because of =
             () => _subject = CollectionJsonReader<FakeComplexModelWithEnumerableOfAbstract>.Deserialize(
-            "{\"template\":{\"data\":[" +
+            "{\"data\":[" +
                 "{\"name\":\"someString\",\"value\":\"foo bar\"}" +
                 ",{\"name\":\"fakeAbstractModels\",\"objects\":[" +
                     "{\"data\":[" +
@@ -304,7 +310,7 @@ namespace CollectionJsonExtended.Core._Specs
                         ",{\"name\":\"derivedAdditionalString\",\"value\":\"abstract bar\"}" +
                     "],\"type\":\"FakeDerivedComplexModel\"}" +
                 "]}" +
-            "]}}");
+            "]}");
 
 
         private It should_the_subject_not_be_null = () => _subject.ShouldNotBeNull();
@@ -325,10 +331,10 @@ namespace CollectionJsonExtended.Core._Specs
 
         private Because of =
             () => _subject = CollectionJsonReader<FakeComplexModelWithAbstract>.Deserialize(
-                "{\"template\":{\"data\":[" +
+                "{\"data\":[" +
                     "{\"name\":\"someString\",\"value\":\"foo bar\"}" +
                     ",{\"name\":\"fakeAbstractModel\",\"abstract\":null}" +
-                "]}}");
+                "]}");
 
         private It should_the_entities_property_FakeAbstractModel_be_null = () => _subject.Entity.FakeAbstractModel.ShouldBeNull();
 
@@ -345,7 +351,7 @@ namespace CollectionJsonExtended.Core._Specs
         static CollectionJsonReader<FakeSimpleModel> _subject;
 
         private Because of = () => _subject = CollectionJsonReader<FakeSimpleModel>.Deserialize(
-                "{\"template\":{\"entity\":{\"someString\":\"foo bar\"}}}");
+                "{\"entity\":{\"someString\":\"foo bar\"}}");
 
         It should_the_subject_not_be_null = () => _subject.ShouldNotBeNull();
 

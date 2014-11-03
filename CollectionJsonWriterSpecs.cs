@@ -4,6 +4,7 @@ using System.Net;
 using CollectionJsonExtended.Core.Extensions;
 using Machine.Fakes;
 using Machine.Specifications;
+using Machine.Specifications.Model;
 
 // ReSharper disable InconsistentNaming
 
@@ -168,5 +169,60 @@ namespace CollectionJsonExtended.Core._Specs
 
     }
 
+    [Subject(typeof (CollectionJsonWriter<FakeEntityWithDenormalizedReference>),
+        "CollectionJsonWriter for a collection of FakeEntityWithDenormalizedReference with 1 item")]
+    public class
+        When_the_CollectionJsonWriter_is_envoked_with
+        : CollectionJsonWriterContext
+    {
+        Establish context =
+            () =>
+            {
+                //var urlInfoCollectionInstance = new UrlInfoCollection();
+                //FakeUrlInfo.AddFakeData(urlInfoCollectionInstance);
+
+                //var anSingletonFactory =
+                //    An<SingletonFactory<UrlInfoCollection>>();
+                //anSingletonFactory.WhenToldTo(x => x.GetInstance())
+                //    .Return(urlInfoCollectionInstance);
+
+                subjectUrlInfoCollection =
+                    SingletonFactory<UrlInfoCollection>.Instance
+                        .Find(typeof (FakeEntityWithDenormalizedReference));
+
+                serializerSettings =
+                    new CollectionJsonSerializerSettings
+                    {
+                        ConversionMethod = ConversionMethod.Entity
+                    };
+            };
+
+        static CollectionJsonWriter<FakeEntityWithDenormalizedReference> subject;
+        
+        Because of =
+            () =>
+            {
+                var fakeRef = new FakeReferenceEntity() {Id = 1, Name = "fakeref", SomeOtherProperty = "other prop"};
+
+                subject =
+                    new CollectionJsonWriter<FakeEntityWithDenormalizedReference>(
+                        new FakeEntityWithDenormalizedReference
+                        {
+                            Id = 1,
+                            Reference = fakeRef,
+                            SomeProperty = "bam"
+                        }, serializerSettings);
+            };
+
+        It should_foo =
+            () => subject.Collection.Items.ToList()[0].ShouldNotBeNull();
+        It should_foo2 =
+            () => subject.Collection.Items.ToList()[0]
+                .Entity.Reference.ShouldBeOfType(typeof (DenormalizedReference<FakeReferenceEntity>));
+        It should_foo3 =
+            () => subject.Collection.Items.ToList()[0]
+                .Entity.Reference.Name.ShouldEqual("fakeref");
+
+    }
 
 }

@@ -84,6 +84,14 @@ namespace CollectionJsonExtended.Core._Specs
                         Kind = Is.Item,
                         //Relation = "fakeMethodWithParam",
                         VirtualPath = "some/path/{fakeStringId}"
+                    },
+
+                    new FakeUrlInfo(typeof(FakeEntityWithDenormalizedReference))
+                    {
+                        PrimaryKeyTemplate = "{fakeId}",
+                        Kind = Is.Item,
+                        //Relation = "fakeMethodWithParam",
+                        VirtualPath = "some/path/{fakeId}"
                     }
                 };
         }

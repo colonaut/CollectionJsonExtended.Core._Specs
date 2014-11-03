@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
 using Machine.Specifications;
 
 namespace CollectionJsonExtended.Core._Specs
@@ -319,4 +320,51 @@ namespace CollectionJsonExtended.Core._Specs
             "}}");
     }
 
+
+    [Subject(typeof(ItemRepresentation<>), "Serialize Type ItemRepresentation.Entity representation")]
+    internal class When_the_item_representaion_as_entity_with_FakeEntity___
+    {
+        static readonly CollectionJsonSerializerSettings Settings =
+            new CollectionJsonSerializerSettings
+            {
+                ConversionMethod = ConversionMethod.Entity
+            };
+
+        static readonly ItemRepresentation<FakeEntityWithDenormalizedReference> Representation =
+            new ItemRepresentation<FakeEntityWithDenormalizedReference>(
+                new FakeEntityWithDenormalizedReference
+                {
+                    Id = 1,
+                    SomeProperty = "some property"                    
+                },
+                Settings);
+
+        static string _subject;
+
+        Because of = () =>
+                     {
+                         var fakeRef =
+                             new FakeReferenceEntity
+                             {
+                                 Id = 1,
+                                 Name = "fakeRef name",
+                                 SomeOtherProperty = "fakeRef other prop"
+                             };
+                         Representation.Entity.Reference = fakeRef;
+
+                         _subject = Representation.Serialize();
+                     };
+
+        It should_the_peoperties_of_the_type_be_reflected_in_json =
+           () => _subject.ShouldEqual("{\"href\":null" +
+
+            ",\"entity\":{" +
+                "\"id\":1" +
+                ",\"reference\":{" +
+                    "\"id\":1" +
+                    ",\"name\":\"fakeRef name\"" +
+                "}" +
+                ",\"someProperty\":\"some property\"" +
+            "}}");
+    }
 }

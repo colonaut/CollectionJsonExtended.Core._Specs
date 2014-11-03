@@ -68,4 +68,18 @@ namespace CollectionJsonExtended.Core._Specs
     {
         
     }
+
+    public class FakeEntityWithDenormalizedReference
+    {
+        public int Id { get; set; }
+        public DenormalizedReference<FakeReferenceEntity> Reference { get; set; }  
+        public string SomeProperty { get; set; }
+    }
+
+    public class FakeReferenceEntity : INamedDocument
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string SomeOtherProperty { get; set; }
+    }
 }

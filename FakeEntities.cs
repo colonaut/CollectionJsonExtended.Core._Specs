@@ -63,20 +63,19 @@ namespace CollectionJsonExtended.Core._Specs
         public string PublicString { get; set; }
     }
 
-    //TODO we should ensure, that if an entity contains another entity, it should be rendered as query link for the item (we try to find a urlinfo for the entity). How to deal with templates then? should we get a list then? it's probably bad design to have another entity in an entity...
     public class FakeEntityWithReadonlyGuiId
     {
         
     }
 
+    //TODO entity reference: we should ensure, that if an entity contains another entity, it should be rendered as query link for the item (we try to find a urlinfo for the entity). How to deal with templates then? should we get a list then? it's probably bad design to have another entity in an entity...
     public class FakeEntityWithDenormalizedReference
     {
         public int Id { get; set; }
         public DenormalizedReference<FakeReferenceEntity> Reference { get; set; }  
         public string SomeProperty { get; set; }
     }
-
-    public class FakeReferenceEntity : INamedDocument
+    public class FakeReferenceEntity : IDenormalizedReference
     {
         public int Id { get; set; }
         public string Name { get; set; }

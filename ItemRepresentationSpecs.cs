@@ -322,7 +322,7 @@ namespace CollectionJsonExtended.Core._Specs
 
 
     [Subject(typeof(ItemRepresentation<>), "Serialize Type ItemRepresentation.Entity representation")]
-    internal class When_the_item_representaion_as_entity_with_FakeEntity___
+    internal class When_the_item_representaion_as_entity_with_FakeEntityWithDenormalizedReference_is_serialized
     {
         static readonly CollectionJsonSerializerSettings Settings =
             new CollectionJsonSerializerSettings
@@ -355,7 +355,7 @@ namespace CollectionJsonExtended.Core._Specs
                          _subject = Representation.Serialize();
                      };
 
-        It should_the_peoperties_of_the_type_be_reflected_in_json =
+        It should_the_peoperties_of_the_type_be_reflected_in_json_with_reference_only_name_and_id =
            () => _subject.ShouldEqual("{\"href\":null" +
 
             ",\"entity\":{" +

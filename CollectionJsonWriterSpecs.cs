@@ -172,7 +172,7 @@ namespace CollectionJsonExtended.Core._Specs
     [Subject(typeof (CollectionJsonWriter<FakeEntityWithDenormalizedReference>),
         "CollectionJsonWriter for a collection of FakeEntityWithDenormalizedReference with 1 item")]
     public class
-        When_the_CollectionJsonWriter_is_envoked_with
+        When_the_CollectionJsonWriter_is_envoked_with_1_FakeEntityWithDenormalizedReference_with_ComversionMethod_Entity
         : CollectionJsonWriterContext
     {
         Establish context =

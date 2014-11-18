@@ -13,25 +13,37 @@ namespace CollectionJsonExtended.Core._Specs
     public abstract class CollectionJsonWriterContext
         : WithFakes
     {
-        protected static IEnumerable<UrlInfoBase> subjectUrlInfoCollection;
-        protected static CollectionJsonSerializerSettings serializerSettings;
+        protected static IEnumerable<UrlInfoBase> UrlInfos;
+        protected static CollectionJsonSerializerSettings SerializerSettings;
+        protected static SingletonFactory<UrlInfoCollection> SingletonUrlInfoCollection;
 
         Establish context =
             () =>
             {
-                serializerSettings =
+                SerializerSettings =
                     new CollectionJsonSerializerSettings
                     {
                         ConversionMethod = ConversionMethod.Data
                     };
 
                 var urlInfoCollectionInstance = new UrlInfoCollection();
-                    FakeUrlInfo.AddFakeData(urlInfoCollectionInstance);
-
-                var singletonFactory =
-                    new SingletonFactory<UrlInfoCollection>(() => urlInfoCollectionInstance);
                 
+                FakeUrlInfo.AddFakeData(urlInfoCollectionInstance);
+
+                SingletonUrlInfoCollection =
+                    new SingletonFactory<UrlInfoCollection>(() => urlInfoCollectionInstance);
+
             };
+
+        Cleanup stuff =
+            () =>
+            {
+                SingletonUrlInfoCollection =
+                    new SingletonFactory<UrlInfoCollection>(() => new UrlInfoCollection());
+            };
+
+        //OnEstablish bar
+        //OnCleanup foo = () => { sr};
     }
     
     
@@ -78,8 +90,9 @@ namespace CollectionJsonExtended.Core._Specs
                 //anSingletonFactory.WhenToldTo(x => x.GetInstance())
                 //    .Return(urlInfoCollectionInstance);
 
-                subjectUrlInfoCollection =
-                    SingletonFactory<UrlInfoCollection>.Instance
+                UrlInfos =
+                    //SingletonFactory<UrlInfoCollection>.Instance
+                    SingletonUrlInfoCollection.GetInstance()
                         .Find(typeof (FakeEntityIntId));
             };
 
@@ -91,13 +104,13 @@ namespace CollectionJsonExtended.Core._Specs
                                                                     {
                                                                         Id = 7773,
                                                                         SomeString = "some string a"
-                                                                    }, serializerSettings);
+                                                                    }, SerializerSettings);
             };
 
         It should_the_urlInfoCollection_have_items =
-            () => subjectUrlInfoCollection.Count().ShouldBeGreaterThan(0);
+            () => UrlInfos.Count().ShouldBeGreaterThan(0);
 
-        It should_foo2 = () => subjectUrlInfoCollection.Count().ShouldEqual(3);
+        It should_foo2 = () => UrlInfos.Count().ShouldEqual(3);
 
         It should_GetVirtualPath_extension_method_return__some_path__ =
             () => subject.Collection.Href.ShouldEqual("some/path");
@@ -141,8 +154,8 @@ namespace CollectionJsonExtended.Core._Specs
                 //anSingletonFactory.WhenToldTo(x => x.GetInstance())
                 //    .Return(urlInfoCollectionInstance);
 
-                subjectUrlInfoCollection =
-                     SingletonFactory<UrlInfoCollection>.Instance
+                UrlInfos =
+                     SingletonUrlInfoCollection.GetInstance()
                      .Find(typeof(FakeEntityWithAttributePrimaryKey));
             };
 
@@ -156,13 +169,13 @@ namespace CollectionJsonExtended.Core._Specs
                         {
                             PrimaryKey = "ThePrimaryKey",
                             SomeString = "some string"
-                        }, serializerSettings);
+                        }, SerializerSettings);
 
             };
 
-        It should_foo = () => subjectUrlInfoCollection.Count().ShouldBeGreaterThan(0);
+        It should_foo = () => UrlInfos.Count().ShouldBeGreaterThan(0);
 
-        It should_foo2 = () => subjectUrlInfoCollection.Count().ShouldEqual(2);
+        It should_foo2 = () => UrlInfos.Count().ShouldEqual(2);
 
         It the_Collection_Items_0_Href_Property_be__some_path_ThePrimaryKey__ =
             () => subject.Collection.Items.ToList()[0].Href.ShouldEqual("some/path/ThePrimaryKey");
@@ -178,51 +191,53 @@ namespace CollectionJsonExtended.Core._Specs
         Establish context =
             () =>
             {
-                //var urlInfoCollectionInstance = new UrlInfoCollection();
-                //FakeUrlInfo.AddFakeData(urlInfoCollectionInstance);
-
-                //var anSingletonFactory =
-                //    An<SingletonFactory<UrlInfoCollection>>();
-                //anSingletonFactory.WhenToldTo(x => x.GetInstance())
-                //    .Return(urlInfoCollectionInstance);
-
-                subjectUrlInfoCollection =
+                UrlInfos =
                     SingletonFactory<UrlInfoCollection>.Instance
                         .Find(typeof (FakeEntityWithDenormalizedReference));
 
-                serializerSettings =
+                SerializerSettings =
                     new CollectionJsonSerializerSettings
                     {
                         ConversionMethod = ConversionMethod.Entity
                     };
             };
 
-        static CollectionJsonWriter<FakeEntityWithDenormalizedReference> subject;
+        static CollectionJsonWriter<FakeEntityWithDenormalizedReference> Subject;
         
         Because of =
             () =>
             {
-                var fakeRef = new FakeReferenceEntity() {Id = 1, Name = "fakeref", SomeOtherProperty = "other prop"};
 
-                subject =
+                var fakeRef =
+                    new FakeReferenceEntity
+                    {
+                        Id = 99,
+                        Name = "fakeref",
+                        SomeOtherProperty = "other prop"
+                    };
+
+                Subject =
                     new CollectionJsonWriter<FakeEntityWithDenormalizedReference>(
                         new FakeEntityWithDenormalizedReference
                         {
                             Id = 1,
                             Reference = fakeRef,
                             SomeProperty = "bam"
-                        }, serializerSettings);
+                        }, SerializerSettings);
             };
 
         It should_foo =
-            () => subject.Collection.Items.ToList()[0].ShouldNotBeNull();
+            () => Subject.Collection.Items.ToList()[0].ShouldNotBeNull();
         It should_foo2 =
-            () => subject.Collection.Items.ToList()[0]
+            () => Subject.Collection.Items.ToList()[0]
                 .Entity.Reference.ShouldBeOfType(typeof (DenormalizedReference<FakeReferenceEntity>));
         It should_foo3 =
-            () => subject.Collection.Items.ToList()[0]
+            () => Subject.Collection.Items.ToList()[0]
                 .Entity.Reference.Name.ShouldEqual("fakeref");
 
+        It should_foo4 =
+            () => Subject.Collection.Items.ToList()[0]
+                .Links.ToList()[0].Href.ShouldEqual("some/path/99");
     }
 
 }

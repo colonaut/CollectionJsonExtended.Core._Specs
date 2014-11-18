@@ -71,4 +71,5 @@ namespace CollectionJsonExtended.Core._Specs
                     ",\"render\":\"image\"" +
                 "}");
     }
+
 }

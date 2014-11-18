@@ -86,12 +86,25 @@ namespace CollectionJsonExtended.Core._Specs
                         VirtualPath = "some/path/{fakeStringId}"
                     },
 
+                    new FakeUrlInfo(typeof(FakeReferenceEntity))
+                    {
+                        PrimaryKeyProperty = typeof (FakeEntityWithStringId).GetProperty("Id", BindingFlags.Instance
+                                                                                           | BindingFlags.IgnoreCase
+                                                                                           | BindingFlags.Public),
+                        PrimaryKeyTemplate = "{fakeReferenceId}",
+                        Kind = Is.Item,
+                        VirtualPath = "some/path/{fakeReferenceId}"
+                    },
+                    
                     new FakeUrlInfo(typeof(FakeEntityWithDenormalizedReference))
                     {
+                        PrimaryKeyProperty = typeof (FakeEntityWithStringId).GetProperty("Id", BindingFlags.Instance
+                                                                                           | BindingFlags.IgnoreCase
+                                                                                           | BindingFlags.Public),
                         PrimaryKeyTemplate = "{fakeId}",
                         Kind = Is.Item,
                         //Relation = "fakeMethodWithParam",
-                        VirtualPath = "some/path/{fakeId}"
+                        VirtualPath = "some/path/{fakeId}",
                     }
                 };
         }

@@ -68,17 +68,41 @@ namespace CollectionJsonExtended.Core._Specs
         
     }
 
-    //TODO entity reference: we should ensure, that if an entity contains another entity, it should be rendered as query link for the item (we try to find a urlinfo for the entity). How to deal with templates then? should we get a list then? it's probably bad design to have another entity in an entity...
-    public class FakeEntityWithDenormalizedReference
-    {
-        public int Id { get; set; }
-        public DenormalizedReference<FakeReferenceEntity> Reference { get; set; }  
-        public string SomeProperty { get; set; }
-    }
+    //TODO entity reference: we should ensure, that if an entity contains another entity, it should be rendered as link for the item (we try to find a urlinfo for the entity). How to deal with templates then? should we get a list then? it's probably bad design to have another entity in an entity...
     public class FakeReferenceEntity : IDenormalizedReference
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string SomeProperty { get; set; }
         public string SomeOtherProperty { get; set; }
+    }
+    public class FakeEntityWithDenormalizedReference
+    {
+        public int Id { get; set; }
+        public DenormalizedReference<FakeReferenceEntity> Reference { get; set; }  
+        public string SomeProperty { get; set; }        
+    }
+    public class FakeEntityWithDerivedDenormalizedReference
+    {
+        public int Id { get; set; }
+        public DenormalizedFakeReferenceEntity Reference { get; set; }
+        public string SomeProperty { get; set; }
+    }
+
+
+
+    public class DenormalizedFakeReferenceEntity : DenormalizedReference<FakeReferenceEntity>
+    {
+        public string SomeProperty { get; set; }
+
+        public static implicit operator DenormalizedFakeReferenceEntity(FakeReferenceEntity foo)
+        {
+            return new DenormalizedFakeReferenceEntity
+                   {
+                       Id = foo.Id,
+                       Name = foo.Name,
+                       SomeProperty = foo.SomeProperty
+                   };
+        }
     }
 }

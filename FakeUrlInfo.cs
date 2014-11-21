@@ -57,8 +57,8 @@ namespace CollectionJsonExtended.Core._Specs
                     new FakeUrlInfo(typeof (FakeEntityWithStringId))
                     {
                         PrimaryKeyProperty = typeof (FakeEntityWithStringId).GetProperty("Id", BindingFlags.Instance
-                                                                                           | BindingFlags.IgnoreCase
-                                                                                           | BindingFlags.Public),
+                                                                                               | BindingFlags.IgnoreCase
+                                                                                               | BindingFlags.Public),
                         PrimaryKeyTemplate = "{fakeStringId}",
                         Kind = Is.Item,
                         //Relation = "fakeMethod",
@@ -77,7 +77,10 @@ namespace CollectionJsonExtended.Core._Specs
                         PrimaryKeyProperty = typeof (FakeEntityWithAttributePrimaryKey).GetProperties()
                             .SingleOrDefault(p =>
                                              {
-                                                 var a = CustomAttributeExtensions.GetCustomAttribute<CollectionJsonPropertyAttribute>((MemberInfo) p);
+                                                 var a =
+                                                     CustomAttributeExtensions
+                                                         .GetCustomAttribute<CollectionJsonPropertyAttribute>(
+                                                             (MemberInfo) p);
                                                  return a != null && a.IsPrimaryKey;
                                              }),
                         PrimaryKeyTemplate = "{fakeStringId}",
@@ -86,26 +89,16 @@ namespace CollectionJsonExtended.Core._Specs
                         VirtualPath = "some/path/{fakeStringId}"
                     },
 
-                    new FakeUrlInfo(typeof(FakeReferenceEntity))
+                    new FakeUrlInfo(typeof (FakeReferenceEntity))
                     {
-                        PrimaryKeyProperty = typeof (FakeEntityWithStringId).GetProperty("Id", BindingFlags.Instance
-                                                                                           | BindingFlags.IgnoreCase
-                                                                                           | BindingFlags.Public),
+                        PrimaryKeyProperty = typeof (FakeReferenceEntity).GetProperty("Id", BindingFlags.Instance
+                                                                                            | BindingFlags.IgnoreCase
+                                                                                            | BindingFlags.Public),
                         PrimaryKeyTemplate = "{fakeReferenceId}",
                         Kind = Is.Item,
                         VirtualPath = "some/path/{fakeReferenceId}"
                     },
-                    
-                    new FakeUrlInfo(typeof(FakeEntityWithDenormalizedReference))
-                    {
-                        PrimaryKeyProperty = typeof (FakeEntityWithStringId).GetProperty("Id", BindingFlags.Instance
-                                                                                           | BindingFlags.IgnoreCase
-                                                                                           | BindingFlags.Public),
-                        PrimaryKeyTemplate = "{fakeId}",
-                        Kind = Is.Item,
-                        //Relation = "fakeMethodWithParam",
-                        VirtualPath = "some/path/{fakeId}",
-                    }
+
                 };
         }
 

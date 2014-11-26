@@ -346,7 +346,7 @@ namespace CollectionJsonExtended.Core._Specs
                          var fakeRef =
                              new FakeReferenceEntity
                              {
-                                 Id = 1,
+                                 Id = 4,
                                  Name = "fakeRef name",
                                  SomeOtherProperty = "fakeRef other prop"
                              };
@@ -357,11 +357,11 @@ namespace CollectionJsonExtended.Core._Specs
 
         It should_the_peoperties_of_the_type_be_reflected_in_json_with_reference_only_name_and_id =
            () => _subject.ShouldEqual("{\"href\":null" +
-
+            //",\"links\":[{\"rel\":\"fakereference.relation\",\"href\":\"some/path/4\"}]" +
             ",\"entity\":{" +
                 "\"id\":1" +
                 ",\"reference\":{" +
-                    "\"id\":1" +
+                    "\"id\":4" +
                     ",\"name\":\"fakeRef name\"" +
                 "}" +
                 ",\"someProperty\":\"some property\"" +

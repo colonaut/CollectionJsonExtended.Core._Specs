@@ -89,6 +89,17 @@ namespace CollectionJsonExtended.Core._Specs
                         VirtualPath = "some/path/{fakeStringId}"
                     },
 
+                    new FakeUrlInfo(typeof (FakeEntityWithDenormalizedReference))
+                    {
+                        PrimaryKeyProperty = typeof (FakeEntityWithDenormalizedReference).GetProperty("Id", BindingFlags.Instance
+                                                                                            | BindingFlags.IgnoreCase
+                                                                                            | BindingFlags.Public),
+                        PrimaryKeyTemplate = "{fakeWithDemormalizedId}",
+                        Kind = Is.Item,
+                        
+                        VirtualPath = "some/path/{fakeWithDemormalizedId}"
+                    },
+
                     new FakeUrlInfo(typeof (FakeReferenceEntity))
                     {
                         PrimaryKeyProperty = typeof (FakeReferenceEntity).GetProperty("Id", BindingFlags.Instance
@@ -96,8 +107,9 @@ namespace CollectionJsonExtended.Core._Specs
                                                                                             | BindingFlags.Public),
                         PrimaryKeyTemplate = "{fakeReferenceId}",
                         Kind = Is.Item,
+                        Relation = "fakereference.relation",
                         VirtualPath = "some/path/{fakeReferenceId}"
-                    },
+                    }
 
                 };
         }
@@ -109,10 +121,10 @@ namespace CollectionJsonExtended.Core._Specs
         }
 
        
-        public static void AddFakeData(UrlInfoCollection urlInfoCollectionInstance)
+        public static void AddFakeData(UrlInfoCache urlInfoCacheInstance)
         {
             foreach (var fakeUrlInfo in TestCollectionData.ToList())
-                urlInfoCollectionInstance.Add(fakeUrlInfo);
+                urlInfoCacheInstance.Add(fakeUrlInfo);
         }
     }
 }

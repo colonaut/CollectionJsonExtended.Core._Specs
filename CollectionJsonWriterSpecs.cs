@@ -15,7 +15,7 @@ namespace CollectionJsonExtended.Core._Specs
     {
         protected static IEnumerable<UrlInfoBase> UrlInfos;
         protected static CollectionJsonSerializerSettings SerializerSettings;
-        protected static SingletonFactory<UrlInfoCollection> SingletonUrlInfoCollection;
+        protected static SingletonFactory<UrlInfoCache> SingletonUrlInfoCollection;
 
         Establish context =
             () =>
@@ -26,11 +26,11 @@ namespace CollectionJsonExtended.Core._Specs
                         ConversionMethod = ConversionMethod.Data
                     };
 
-                var urlInfoCollectionInstance = new UrlInfoCollection();
+                var urlInfoCollectionInstance = new UrlInfoCache();
                 FakeUrlInfo.AddFakeData(urlInfoCollectionInstance);
 
                 SingletonUrlInfoCollection =
-                    new SingletonFactory<UrlInfoCollection>(() => urlInfoCollectionInstance);
+                    new SingletonFactory<UrlInfoCache>(() => urlInfoCollectionInstance);
                     //new SingletonFactory<UrlInfoCollection>(() => new UrlInfoCollection());
 
             };
@@ -39,7 +39,7 @@ namespace CollectionJsonExtended.Core._Specs
             () =>
             {
                 SingletonUrlInfoCollection =
-                    new SingletonFactory<UrlInfoCollection>(() => new UrlInfoCollection());
+                    new SingletonFactory<UrlInfoCache>(() => new UrlInfoCache());
             };
 
         //OnEstablish bar
@@ -182,64 +182,7 @@ namespace CollectionJsonExtended.Core._Specs
 
     }
 
-    [Subject(typeof(CollectionJsonWriter<>),
-        "CollectionJsonWriter for a collection of FakeEntityWithDenormalizedReference with 1 item")]
-    public class
-        When_the_CollectionJsonWriter_is_envoked_with_1_FakeEntityWithDenormalizedReference_with_ComversionMethod_Entity
-        : CollectionJsonWriterContext
-    {
-        Establish context =
-            () =>
-            {
-                UrlInfos =
-                    SingletonFactory<UrlInfoCollection>.Instance
-                        .Find(typeof(FakeEntityWithDenormalizedReference));
-
-                SerializerSettings =
-                    new CollectionJsonSerializerSettings
-                    {
-                        ConversionMethod = ConversionMethod.Entity
-                    };
-            };
-
-        static CollectionJsonWriter<FakeEntityWithDenormalizedReference> Subject;
-
-        Because of =
-            () =>
-            {
-
-                var fakeRef =
-                    new FakeReferenceEntity
-                    {
-                        Id = 99,
-                        Name = "fakeref",
-                        SomeOtherProperty = "other prop"
-                    };
-
-                Subject =
-                    new CollectionJsonWriter<FakeEntityWithDenormalizedReference>(
-                        new FakeEntityWithDenormalizedReference
-                        {
-                            Id = 1,
-                            Reference = fakeRef,
-                            SomeProperty = "bam"
-                        }, SerializerSettings);
-            };
-
-        It should_the_items_not_be_null =
-            () => Subject.Collection.Items.ToList()[0].ShouldNotBeNull();
-        It should_the_first_item_entities_reference_be_of_type__D__ =
-            () => Subject.Collection.Items.ToList()[0]
-                .Entity.Reference.ShouldBeOfType(typeof(DenormalizedReference<FakeReferenceEntity>));
-        It should_the_first_item_entities_references_name_be__fakeref__ =
-            () => Subject.Collection.Items.ToList()[0]
-                .Entity.Reference.Name.ShouldEqual("fakeref");
-
-        It should_the_first_item_entities_reference_path_be__some_path_99__ =
-            () => Subject.Collection.Items.ToList()[0]
-                .Links.ToList()[0].Href.ShouldEqual("some/path/99");
-    }
-
+    
     [Subject(typeof(CollectionJsonWriter<>),
         "CollectionJsonWriter for a collection of FakeEntityWithDerivedDenormalizedReference with 1 item")]
     public class
@@ -250,7 +193,7 @@ namespace CollectionJsonExtended.Core._Specs
             () =>
             {
                 UrlInfos =
-                    SingletonFactory<UrlInfoCollection>.Instance
+                    SingletonFactory<UrlInfoCache>.Instance
                         .Find(typeof(FakeEntityWithDerivedDenormalizedReference));
 
                 SerializerSettings =
@@ -308,4 +251,61 @@ namespace CollectionJsonExtended.Core._Specs
                 .Links.ToList()[0].Href.ShouldEqual("some/path/55");
     }
 
+    [Subject(typeof(CollectionJsonWriter<>),
+        "CollectionJsonWriter for a collection of FakeEntityWithDenormalizedReference with 1 item")]
+    public class
+        When_the_CollectionJsonWriter_is_envoked_with_1_FakeEntityWithDenormalizedReference_with_ComversionMethod_Entity
+        : CollectionJsonWriterContext
+    {
+        Establish context =
+            () =>
+            {
+                UrlInfos =
+                    SingletonFactory<UrlInfoCache>.Instance
+                        .Find(typeof(FakeEntityWithDenormalizedReference));
+
+                SerializerSettings =
+                    new CollectionJsonSerializerSettings
+                    {
+                        ConversionMethod = ConversionMethod.Entity
+                    };
+            };
+
+        static CollectionJsonWriter<FakeEntityWithDenormalizedReference> Subject;
+
+        Because of =
+            () =>
+            {
+
+                var fakeRef =
+                    new FakeReferenceEntity
+                    {
+                        Id = 99,
+                        Name = "fakeref",
+                        SomeOtherProperty = "other prop"
+                    };
+
+                Subject =
+                    new CollectionJsonWriter<FakeEntityWithDenormalizedReference>(
+                        new FakeEntityWithDenormalizedReference
+                        {
+                            Id = 1,
+                            Reference = fakeRef,
+                            SomeProperty = "bam"
+                        }, SerializerSettings);
+            };
+
+        It should_the_items_not_be_null =
+            () => Subject.Collection.Items.ToList()[0].ShouldNotBeNull();
+        It should_the_first_item_entities_reference_be_of_type__D__ =
+            () => Subject.Collection.Items.ToList()[0]
+                .Entity.Reference.ShouldBeOfType(typeof(DenormalizedReference<FakeReferenceEntity>));
+        It should_the_first_item_entities_references_name_be__fakeref__ =
+            () => Subject.Collection.Items.ToList()[0]
+                .Entity.Reference.Name.ShouldEqual("fakeref");
+
+        It should_the_first_item_entities_reference_path_be__some_path_99__ =
+            () => Subject.Collection.Items.ToList()[0]
+                .Links.ToList()[0].Href.ShouldEqual("some/path/99");
+    }
 }
